@@ -52,7 +52,7 @@ func (h *Handler) signIn(c echo.Context) error {
 
 	token, err := h.services.SignIn(ctx, user)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, mementor_back.Message{Message: err.Error()})
+		c.JSON(http.StatusPreconditionFailed, mementor_back.Message{Message: err.Error()})
 		return err
 	}
 	return c.JSON(http.StatusOK, token)

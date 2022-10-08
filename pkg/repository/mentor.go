@@ -13,7 +13,7 @@ type MentorMongo struct {
 	db *mongo.Collection
 }
 
-func (m MentorMongo) GetMentor(ctx context.Context, id string) (mementor_back.Mentor, error) {
+func (m *MentorMongo) GetMentor(ctx context.Context, id string) (mementor_back.Mentor, error) {
 	var mentor mementor_back.Mentor
 	hexedId, err := primitive.ObjectIDFromHex(id)
 	if err != nil {
@@ -27,12 +27,12 @@ func (m MentorMongo) GetMentor(ctx context.Context, id string) (mementor_back.Me
 	return mentor, nil
 }
 
-func (m MentorMongo) PutMentor(ctx context.Context, mentor mementor_back.Mentor) error {
+func (m *MentorMongo) PutMentor(ctx context.Context, mentor mementor_back.Mentor) error {
 	_, err := m.db.UpdateByID(ctx, primitive.M{"_id": mentor.Id}, mentor)
 	return err
 }
 
-func (m MentorMongo) DeleteMentor(ctx context.Context, id string) error {
+func (m *MentorMongo) DeleteMentor(ctx context.Context, id string) error {
 	hexedId, err := primitive.ObjectIDFromHex(id)
 	if err != nil {
 		return err
@@ -41,7 +41,7 @@ func (m MentorMongo) DeleteMentor(ctx context.Context, id string) error {
 	return err
 }
 
-func (m MentorMongo) ListOfMentors(ctx context.Context, page uint, params interface{}) ([]*mementor_back.Mentor, error) {
+func (m *MentorMongo) ListOfMentors(ctx context.Context, page uint, params interface{}) ([]*mementor_back.Mentor, error) {
 	opts := options.Find()
 	opts.SetLimit(20)
 	opts.SetSkip(int64(page) * 20)
