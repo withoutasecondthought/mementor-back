@@ -16,18 +16,18 @@ func (h *Handler) parseJWT(next echo.HandlerFunc) echo.HandlerFunc {
 		errorTXT := "token invalid"
 		authHeader := c.Request().Header.Get("Authorization")
 		if authHeader == "" {
-			c.JSON(http.StatusUnauthorized, mementor_back.Message{Message: "1"})
+			c.JSON(http.StatusUnauthorized, mementor_back.Message{Message: errorTXT})
 			return errors.New(errorTXT)
 		}
 
 		headerParts := strings.Split(authHeader, " ")
 		if len(headerParts) != 2 {
-			c.JSON(http.StatusUnauthorized, mementor_back.Message{Message: "2"})
+			c.JSON(http.StatusUnauthorized, mementor_back.Message{Message: errorTXT})
 			return errors.New(errorTXT)
 		}
 
 		if headerParts[0] != "Bearer" {
-			c.JSON(http.StatusUnauthorized, mementor_back.Message{Message: "3"})
+			c.JSON(http.StatusUnauthorized, mementor_back.Message{Message: errorTXT})
 			return errors.New(errorTXT)
 		}
 

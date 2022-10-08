@@ -19,10 +19,7 @@ func (m *MentorMongo) GetMentor(ctx context.Context, id string) (mementor_back.M
 	if err != nil {
 		return mementor_back.Mentor{}, err
 	}
-	res := m.db.FindOne(ctx, primitive.D{{"_id", hexedId}}).Decode(&mentor)
-	if res.Error() != "" {
-		return mementor_back.Mentor{}, res
-	}
+	_ = m.db.FindOne(ctx, primitive.M{"_id": hexedId}).Decode(&mentor)
 
 	return mentor, nil
 }

@@ -32,7 +32,7 @@ func (h *Handler) InitRoutes() *echo.Echo {
 			log.WithFields(logrus.Fields{
 				"URI":    values.URI,
 				"status": values.Status,
-				"error":  values.Error,
+				"error":  values.Error.Error(),
 			}).Info("request")
 
 			return nil
@@ -47,9 +47,9 @@ func (h *Handler) InitRoutes() *echo.Echo {
 
 	mentor := e.Group("mentor", h.parseJWT)
 	{
-		mentor.GET("/", h.getYourPage)
-		mentor.PUT("/", h.putMentor)
-		mentor.DELETE("/", h.deleteMentor)
+		mentor.GET("", h.getYourPage)
+		mentor.PUT("", h.putMentor)
+		mentor.DELETE("", h.deleteMentor)
 
 	}
 
