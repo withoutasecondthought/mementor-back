@@ -3,6 +3,7 @@ package repository
 import (
 	"context"
 	"github.com/spf13/viper"
+	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
@@ -25,7 +26,7 @@ func (m *MentorMongo) GetMentor(ctx context.Context, id string) (mementor_back.M
 }
 
 func (m *MentorMongo) PutMentor(ctx context.Context, mentor mementor_back.Mentor) error {
-	_, err := m.db.UpdateByID(ctx, primitive.M{"_id": mentor.Id}, mentor)
+	_, err := m.db.UpdateOne(ctx, primitive.M{"_id": mentor.Id}, bson.M{"$set": mentor})
 	return err
 }
 

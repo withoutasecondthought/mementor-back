@@ -24,6 +24,7 @@ func (h *Handler) InitRoutes() *echo.Echo {
 	log := logrus.New()
 
 	e.Use(middleware.Recover())
+	e.Use(middleware.CORS())
 
 	e.Use(middleware.RequestLoggerWithConfig(middleware.RequestLoggerConfig{
 		LogURI:    true,
