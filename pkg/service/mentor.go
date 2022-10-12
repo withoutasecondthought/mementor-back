@@ -2,6 +2,7 @@ package service
 
 import (
 	"context"
+	"errors"
 	mementor_back "mementor-back"
 	"mementor-back/pkg/repository"
 )
@@ -15,6 +16,14 @@ func (m *MentorService) GetMentor(ctx context.Context, id string) (mementor_back
 }
 
 func (m *MentorService) PutMentor(ctx context.Context, mentor mementor_back.Mentor) error {
+	var grade = map[string]int{
+		"junior": 0,
+		"middle": 1,
+		"senior": 2,
+	}
+	if _, exist := grade[mentor.Grade]; !exist {
+		return errors.New("grade invalid")
+	}
 	return m.repos.PutMentor(ctx, mentor)
 }
 
