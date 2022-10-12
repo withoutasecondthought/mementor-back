@@ -7,11 +7,11 @@ import (
 )
 
 type Server struct {
-	httpServer http.Server
+	httpServer *http.Server
 }
 
 func (s *Server) Run(port string, handler http.Handler) error {
-	s.httpServer = http.Server{
+	s.httpServer = &http.Server{
 		Addr:         ":" + port,
 		Handler:      handler,
 		ReadTimeout:  10 * time.Second,
@@ -22,5 +22,5 @@ func (s *Server) Run(port string, handler http.Handler) error {
 }
 
 func (s *Server) Shutdown(ctx context.Context) error {
-	return s.Shutdown(ctx)
+	return s.httpServer.Shutdown(ctx)
 }
