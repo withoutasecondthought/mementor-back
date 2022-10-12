@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	"github.com/spf13/viper"
+	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 	mementor_back "mementor-back"
@@ -18,8 +19,12 @@ type getId struct {
 }
 
 func (a *AuthMongo) CreateUser(ctx context.Context, user mementor_back.Auth) (string, error) {
-	if test := a.db.FindOne(ctx, user.Email).Err(); test == nil {
+	test, err := a.db.CountDocuments(ctx, bson.M{"email": user.Email})
+	if test != 0 {
 		return "", errors.New("you have already creates account")
+	}
+	if err != nil {
+		return "", err
 	}
 	res, err := a.db.InsertOne(ctx, user)
 	if err != nil {
