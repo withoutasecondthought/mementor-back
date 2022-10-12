@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"github.com/go-playground/validator/v10"
 	"github.com/labstack/echo/v4"
-	"github.com/sirupsen/logrus"
 	mementor_back "mementor-back"
 	"net/http"
 	"strconv"
@@ -99,8 +98,7 @@ func (h *Handler) getYourPage(c echo.Context) error {
 	ctx := context.Background()
 	mentor, err := h.services.GetMentor(ctx, h.userId.Hex())
 	if err != nil {
-		logrus.Println(err)
-		c.JSON(http.StatusOK, err)
+		c.JSON(http.StatusBadRequest, err)
 		return err
 	}
 
