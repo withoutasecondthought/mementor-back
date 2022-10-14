@@ -96,7 +96,7 @@ func (h *Handler) listOfMentors(c echo.Context) error {
 
 func (h *Handler) getYourPage(c echo.Context) error {
 	ctx := context.Background()
-	mentor, err := h.services.GetMentor(ctx, h.userId.Hex())
+	mentor, err := h.services.GetMyMentor(ctx, h.userId.Hex())
 	if err != nil {
 		c.JSON(http.StatusBadRequest, err)
 		return err

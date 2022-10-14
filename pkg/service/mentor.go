@@ -15,6 +15,10 @@ func (m *MentorService) GetMentor(ctx context.Context, id string) (mementor_back
 	return m.repos.GetMentor(ctx, id)
 }
 
+func (m *MentorService) GetMyMentor(ctx context.Context, id string) (mementor_back.Mentor, error) {
+	return m.repos.GetMentor(ctx, id)
+}
+
 func (m *MentorService) PutMentor(ctx context.Context, mentor mementor_back.Mentor) error {
 	var grade = map[string]int{
 		"junior": 0,

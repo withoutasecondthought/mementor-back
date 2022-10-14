@@ -2,6 +2,7 @@ package repository
 
 import (
 	"context"
+	"errors"
 	"github.com/spf13/viper"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
@@ -14,13 +15,27 @@ type MentorMongo struct {
 	db *mongo.Collection
 }
 
-func (m *MentorMongo) GetMentor(ctx context.Context, id string) (mementor_back.Mentor, error) {
+func (m *MentorMongo) GetMyMentor(ctx context.Context, id string) (mementor_back.Mentor, error) {
 	var mentor mementor_back.Mentor
 	hexedId, err := primitive.ObjectIDFromHex(id)
 	if err != nil {
 		return mementor_back.Mentor{}, err
 	}
 	_ = m.db.FindOne(ctx, primitive.M{"_id": hexedId}).Decode(&mentor)
+
+	return mentor, nil
+}
+
+func (m *MentorMongo) GetMentor(ctx context.Context, id string) (mementor_back.Mentor, error) {
+	var mentor mementor_back.Mentor
+	hexedId, err := primitive.ObjectIDFromHex(id)
+	if err != nil {
+		return mementor_back.Mentor{}, err
+	}
+	_ = m.db.FindOne(ctx, primitive.M{"_id": hexedId, "validProfile": true}).Decode(&mentor)
+	if mentor.Email == "" {
+		return mementor_back.Mentor{}, errors.New("no such user")
+	}
 
 	return mentor, nil
 }
