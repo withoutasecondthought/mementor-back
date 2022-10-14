@@ -16,7 +16,7 @@ func (m *MentorService) GetMentor(ctx context.Context, id string) (mementor_back
 }
 
 func (m *MentorService) GetMyMentor(ctx context.Context, id string) (mementor_back.Mentor, error) {
-	return m.repos.GetMentor(ctx, id)
+	return m.repos.GetMyMentor(ctx, id)
 }
 
 func (m *MentorService) PutMentor(ctx context.Context, mentor mementor_back.Mentor) error {
