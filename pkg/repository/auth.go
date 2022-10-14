@@ -36,7 +36,7 @@ func (a *AuthMongo) CreateUser(ctx context.Context, user mementor_back.Auth) (st
 
 func (a *AuthMongo) GetUser(ctx context.Context, user mementor_back.Auth) (string, error) {
 	var response getId
-	err := a.db.FindOne(ctx, user).Decode(&response)
+	err := a.db.FindOne(ctx, bson.M{"email": user.Email, "password": user.Password}).Decode(&response)
 	if err != nil {
 		return "", err
 	}
