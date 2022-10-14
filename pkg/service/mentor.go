@@ -24,6 +24,7 @@ func (m *MentorService) PutMentor(ctx context.Context, mentor mementor_back.Ment
 	if _, exist := grade[mentor.Grade]; !exist {
 		return errors.New("grade invalid")
 	}
+	mentor.ValidProfile = true
 	return m.repos.PutMentor(ctx, mentor)
 }
 

@@ -7,8 +7,9 @@ type Message struct {
 }
 
 type Auth struct {
-	Email    string `json:"email" validate:"required,email"`
-	Password string `json:"password" validate:"required,min=6"`
+	Email        string `json:"email" validate:"required,email"`
+	Password     string `json:"password" validate:"required,min=6"`
+	ValidProfile bool   `json:"-" bson:"validProfile"`
 }
 
 type Mentor struct {
@@ -26,6 +27,7 @@ type Mentor struct {
 	Tariff              []Tariff            `json:"tariff" bson:"tariff"  validate:"required"`
 	CanHelpWith         []string            `json:"canHelpWith" bson:"canHelpWith"`
 	Language            []string            `json:"language" bson:"language"`
+	ValidProfile        bool                `json:"validProfile" bson:"validProfile"`
 }
 
 type Education struct {

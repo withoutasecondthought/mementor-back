@@ -37,6 +37,7 @@ func (a *AuthService) SignIn(ctx context.Context, user mementor_back.Auth) (stri
 }
 
 func (a *AuthService) SignUp(ctx context.Context, user mementor_back.Auth) (string, error) {
+	user.ValidProfile = false
 	user.Password = hashPassword(user.Password)
 	id, err := a.repos.CreateUser(ctx, user)
 	if err != nil {
