@@ -1,8 +1,8 @@
 package handler
 
 import (
-	"errors"
 	"github.com/labstack/echo/v4"
+	"github.com/sirupsen/logrus"
 	"github.com/spf13/viper"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	mementor_back "mementor-back"
@@ -16,34 +16,38 @@ func (h *Handler) parseJWT(next echo.HandlerFunc) echo.HandlerFunc {
 		errorTXT := "token invalid"
 		authHeader := c.Request().Header.Get("Authorization")
 		if authHeader == "" {
-			c.JSON(http.StatusUnauthorized, mementor_back.Message{Message: errorTXT})
-			return errors.New(errorTXT)
+			return c.JSON(http.StatusUnauthorized, mementor_back.Message{Message: errorTXT})
+
 		}
 
 		headerParts := strings.Split(authHeader, " ")
 		if len(headerParts) != 2 {
-			c.JSON(http.StatusUnauthorized, mementor_back.Message{Message: errorTXT})
-			return errors.New(errorTXT)
+			return c.JSON(http.StatusUnauthorized, mementor_back.Message{Message: errorTXT})
 		}
 
 		if headerParts[0] != "Bearer" {
-			c.JSON(http.StatusUnauthorized, mementor_back.Message{Message: errorTXT})
-			return errors.New(errorTXT)
+			return c.JSON(http.StatusUnauthorized, mementor_back.Message{Message: errorTXT})
 		}
 
 		token, err := parser.ParseToken(headerParts[1], []byte(viper.GetString("signing_key")))
 		if err != nil {
-			c.JSON(http.StatusUnauthorized, mementor_back.Message{Message: err.Error()})
+			sendError := c.JSON(http.StatusUnauthorized, mementor_back.Message{Message: err.Error()})
+			if sendError != nil {
+				logrus.Error(sendError)
+			}
 			return err
 		}
 
 		id, err := primitive.ObjectIDFromHex(token)
 		if err != nil {
-			c.JSON(http.StatusUnauthorized, mementor_back.Message{Message: err.Error()})
+			sendError := c.JSON(http.StatusUnauthorized, mementor_back.Message{Message: err.Error()})
+			if sendError != nil {
+				logrus.Error(sendError)
+			}
 			return err
 		}
 
-		h.userId = id
+		h.UserId = id
 
 		if err := next(c); err != nil {
 			c.Error(err)

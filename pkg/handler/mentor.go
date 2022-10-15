@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/go-playground/validator/v10"
 	"github.com/labstack/echo/v4"
+	"github.com/sirupsen/logrus"
 	mementor_back "mementor-back"
 	"net/http"
 	"strconv"
@@ -14,11 +15,14 @@ func (h *Handler) getMentor(c echo.Context) error {
 	id := c.Param("id")
 
 	ctx := context.Background()
-	mentor, err := h.services.GetMentor(ctx, id)
+	mentor, err := h.Services.GetMentor(ctx, id)
 	if err != nil {
-		c.JSON(http.StatusNotFound, mementor_back.Message{
+		sentError := c.JSON(http.StatusNotFound, mementor_back.Message{
 			Message: fmt.Sprintf("Mentor not found: %s", err),
 		})
+		if sentError != nil {
+			logrus.Error(sentError)
+		}
 		return err
 	}
 
@@ -31,22 +35,31 @@ func (h *Handler) putMentor(c echo.Context) error {
 
 	err := c.Bind(&mentor)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, mementor_back.Message{Message: err.Error()})
+		sentError := c.JSON(http.StatusBadRequest, mementor_back.Message{Message: err.Error()})
+		if sentError != nil {
+			logrus.Error(sentError)
+		}
 		return err
 	}
 	err = validate.Struct(mentor)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, mementor_back.Message{Message: err.Error()})
+		sentError := c.JSON(http.StatusBadRequest, mementor_back.Message{Message: err.Error()})
+		if sentError != nil {
+			logrus.Error(sentError)
+		}
 		return err
 	}
 
 	ctx := context.Background()
 
-	mentor.Id = &h.userId
+	mentor.Id = &h.UserId
 
-	err = h.services.PutMentor(ctx, mentor)
+	err = h.Services.PutMentor(ctx, mentor)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, mementor_back.Message{Message: err.Error()})
+		sentError := c.JSON(http.StatusBadRequest, mementor_back.Message{Message: err.Error()})
+		if sentError != nil {
+			logrus.Error(sentError)
+		}
 		return err
 	}
 	return c.String(http.StatusOK, "ok")
@@ -55,10 +68,13 @@ func (h *Handler) putMentor(c echo.Context) error {
 func (h *Handler) deleteMentor(c echo.Context) error {
 	ctx := context.Background()
 
-	err := h.services.DeleteMentor(ctx, h.userId.Hex())
+	err := h.Services.DeleteMentor(ctx, h.UserId.Hex())
 	if err != nil {
 		if err != nil {
-			c.JSON(http.StatusBadRequest, mementor_back.Message{Message: err.Error()})
+			sentError := c.JSON(http.StatusBadRequest, mementor_back.Message{Message: err.Error()})
+			if sentError != nil {
+				logrus.Error(sentError)
+			}
 			return err
 		}
 	}
@@ -74,31 +90,42 @@ func (h *Handler) listOfMentors(c echo.Context) error {
 	}
 	page, err := strconv.Atoi(p)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, mementor_back.Message{Message: err.Error()})
+		sentError := c.JSON(http.StatusBadRequest, mementor_back.Message{Message: err.Error()})
+		if sentError != nil {
+			logrus.Error(sentError)
+		}
 		return err
 	}
 
 	err = c.Bind(&params)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, mementor_back.Message{Message: err.Error()})
+		sentError := c.JSON(http.StatusBadRequest, mementor_back.Message{Message: err.Error()})
+		if sentError != nil {
+			logrus.Error(sentError)
+		}
 		return err
 	}
 
-	mentors, err := h.services.ListOfMentors(ctx, uint(page), params)
+	mentors, err := h.Services.ListOfMentors(ctx, uint(page), params)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, mementor_back.Message{Message: err.Error()})
+		sentError := c.JSON(http.StatusBadRequest, mementor_back.Message{Message: err.Error()})
+		if sentError != nil {
+			logrus.Error(sentError)
+		}
 		return err
 	}
 
-	c.JSON(http.StatusOK, mentors)
-	return nil
+	return c.JSON(http.StatusOK, mentors)
 }
 
 func (h *Handler) getYourPage(c echo.Context) error {
 	ctx := context.Background()
-	mentor, err := h.services.GetMyMentor(ctx, h.userId.Hex())
+	mentor, err := h.Services.GetMyMentor(ctx, h.UserId.Hex())
 	if err != nil {
-		c.JSON(http.StatusBadRequest, err)
+		sentError := c.JSON(http.StatusBadRequest, mementor_back.Message{Message: err.Error()})
+		if sentError != nil {
+			logrus.Error(sentError)
+		}
 		return err
 	}
 

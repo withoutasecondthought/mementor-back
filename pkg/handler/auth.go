@@ -4,6 +4,7 @@ import (
 	"context"
 	"github.com/go-playground/validator/v10"
 	"github.com/labstack/echo/v4"
+	"github.com/sirupsen/logrus"
 	mementor_back "mementor-back"
 	"net/http"
 )
@@ -14,20 +15,29 @@ func (h *Handler) signUp(c echo.Context) error {
 
 	err := c.Bind(&user)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, mementor_back.Message{Message: err.Error()})
+		sendError := c.JSON(http.StatusBadRequest, mementor_back.Message{Message: err.Error()})
+		if sendError != nil {
+			logrus.Error(sendError)
+		}
 		return err
 	}
 	err = validate.Struct(user)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, mementor_back.Message{Message: err.Error()})
+		sendError := c.JSON(http.StatusBadRequest, mementor_back.Message{Message: err.Error()})
+		if sendError != nil {
+			logrus.Error(sendError)
+		}
 		return err
 	}
 
 	ctx := context.Background()
 
-	token, err := h.services.SignUp(ctx, user)
+	token, err := h.Services.SignUp(ctx, user)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, mementor_back.Message{Message: err.Error()})
+		sendError := c.JSON(http.StatusBadRequest, mementor_back.Message{Message: err.Error()})
+		if sendError != nil {
+			logrus.Error(sendError)
+		}
 		return err
 	}
 	return c.JSON(http.StatusOK, token)
@@ -39,21 +49,34 @@ func (h *Handler) signIn(c echo.Context) error {
 
 	err := c.Bind(&user)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, mementor_back.Message{Message: err.Error()})
+		sendError := c.JSON(http.StatusBadRequest, mementor_back.Message{Message: err.Error()})
+		if sendError != nil {
+			logrus.Error(sendError)
+		}
 		return err
 	}
 	err = validate.Struct(user)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, mementor_back.Message{Message: err.Error()})
+		sendError := c.JSON(http.StatusBadRequest, mementor_back.Message{Message: err.Error()})
+		if sendError != nil {
+			logrus.Error(sendError)
+		}
 		return err
 	}
 
 	ctx := context.Background()
 
-	token, err := h.services.SignIn(ctx, user)
+	token, err := h.Services.SignIn(ctx, user)
 	if err != nil {
-		c.JSON(http.StatusPreconditionFailed, mementor_back.Message{Message: err.Error()})
+		sendError := c.JSON(http.StatusBadRequest, mementor_back.Message{Message: err.Error()})
+		if sendError != nil {
+			logrus.Error(sendError)
+		}
 		return err
 	}
-	return c.JSON(http.StatusOK, token)
+	sendError := c.JSON(http.StatusOK, mementor_back.Message{Message: token})
+	if sendError != nil {
+		logrus.Error(sendError)
+	}
+	return nil
 }

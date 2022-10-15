@@ -36,6 +36,7 @@ type Education struct {
 }
 
 type Tariff struct {
-	Price uint   `json:"price" bson:"price"  validate:"required"`
-	Name  string `json:"name" bson:"name"  validate:"required"`
+	Price       uint   `json:"price" bson:"price"  validate:"required"`
+	Name        string `json:"name" bson:"name"  validate:"required"`
+	Description string `json:"description" bson:"description"  validate:"required"`
 }
