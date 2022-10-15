@@ -17,6 +17,20 @@ import (
 	"time"
 )
 
+// @title Mementor back
+// @version         1.0
+// @description     Best backend ever.
+
+// @contact.name   @withoutasecondthought
+// @contact.email    mrmarkeld@gmail.com
+
+// @host      api.ilyaprojects.com/
+// @BasePath  /mementor
+
+//@securityDefinitions.apikey ApiKeyAUth
+//@in header
+//@name Authorization
+
 func main() {
 	err := config.InitConfig()
 	if err != nil {

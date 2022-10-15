@@ -21,23 +21,12 @@ func NewHandler(service *service.Service) *Handler {
 	}
 }
 
-// @title Mementor back
-// @version         1.0
-// @description     Best backend ever.
-
-// @contact.name   @withoutasecondthought
-// @contact.email    mrmarkeld@gmail.com
-
-// @host      api.ilyaprojects.com/
-// @BasePath  /mementor
-
 func (h *Handler) InitRoutes() *echo.Echo {
 	e := echo.New()
 	log := logrus.New()
 
 	e.Use(middleware.Recover())
 	e.Use(middleware.CORS())
-	e.Use(middleware.Static(""))
 
 	e.Use(middleware.RequestLoggerWithConfig(middleware.RequestLoggerConfig{
 		LogURI:    true,
