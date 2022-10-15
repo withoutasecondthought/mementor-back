@@ -20,6 +20,7 @@ type Mentor struct {
 	Grade               string              `json:"grade" bson:"grade" validate:"required"`
 	Language            []string            `json:"language" bson:"language"`
 	Tariff              []Tariff            `json:"tariff" bson:"tariff"  validate:"required,len=3"`
+	ValidProfile        bool                `json:"validProfile" bson:"validProfile"`
 }
 
 type MentorFullInfo struct {
