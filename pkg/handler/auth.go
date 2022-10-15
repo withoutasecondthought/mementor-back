@@ -40,7 +40,7 @@ func (h *Handler) signUp(c echo.Context) error {
 		}
 		return err
 	}
-	return c.JSON(http.StatusOK, token)
+	return c.JSON(http.StatusOK, map[string]string{"token": token})
 }
 
 func (h *Handler) signIn(c echo.Context) error {
