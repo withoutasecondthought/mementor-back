@@ -11,15 +11,15 @@ type MentorService struct {
 	repos repository.Mentor
 }
 
-func (m *MentorService) GetMentor(ctx context.Context, id string) (mementor_back.Mentor, error) {
+func (m *MentorService) GetMentor(ctx context.Context, id string) (mementor_back.MentorFullInfo, error) {
 	return m.repos.GetMentor(ctx, id)
 }
 
-func (m *MentorService) GetMyMentor(ctx context.Context, id string) (mementor_back.Mentor, error) {
+func (m *MentorService) GetMyMentor(ctx context.Context, id string) (mementor_back.MentorFullInfo, error) {
 	return m.repos.GetMyMentor(ctx, id)
 }
 
-func (m *MentorService) PutMentor(ctx context.Context, mentor mementor_back.Mentor) error {
+func (m *MentorService) PutMentor(ctx context.Context, mentor mementor_back.MentorFullInfo) error {
 	var grade = map[string]int{
 		"junior": 0,
 		"middle": 1,

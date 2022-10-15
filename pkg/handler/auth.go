@@ -74,7 +74,7 @@ func (h *Handler) signIn(c echo.Context) error {
 		}
 		return err
 	}
-	sendError := c.JSON(http.StatusOK, mementor_back.Message{Message: token})
+	sendError := c.JSON(http.StatusOK, map[string]string{"token": token})
 	if sendError != nil {
 		logrus.Error(sendError)
 	}

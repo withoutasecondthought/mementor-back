@@ -7,9 +7,9 @@ import (
 )
 
 type Mentor interface {
-	GetMentor(ctx context.Context, id string) (mementor_back.Mentor, error)
-	GetMyMentor(ctx context.Context, id string) (mementor_back.Mentor, error)
-	PutMentor(ctx context.Context, mentor mementor_back.Mentor) error
+	GetMentor(ctx context.Context, id string) (mementor_back.MentorFullInfo, error)
+	GetMyMentor(ctx context.Context, id string) (mementor_back.MentorFullInfo, error)
+	PutMentor(ctx context.Context, mentor mementor_back.MentorFullInfo) error
 	DeleteMentor(ctx context.Context, id string) error
 	ListOfMentors(ctx context.Context, page uint, params interface{}) ([]*mementor_back.Mentor, error)
 }

@@ -35,7 +35,7 @@ func (h *Handler) InitRoutes() *echo.Echo {
 	e := echo.New()
 	log := logrus.New()
 
-	e.Use(middleware.Logger())
+	e.Use(middleware.Recover())
 	e.Use(middleware.CORS())
 	e.Use(middleware.Static(""))
 
@@ -58,10 +58,10 @@ func (h *Handler) InitRoutes() *echo.Echo {
 	e.POST("/sign-in", h.signIn)
 	e.POST("/sign-up", h.signUp)
 
-	e.GET("mentor/:id", h.getMentor)
-	e.POST("mentor/:page", h.listOfMentors)
+	e.GET("/mentor/:id", h.getMentor)
+	e.POST("/mentor/:page", h.listOfMentors)
 
-	mentor := e.Group("mentor", h.parseJWT)
+	mentor := e.Group("/mentor", h.parseJWT)
 	{
 		mentor.GET("", h.getYourPage)
 		mentor.PUT("", h.putMentor)

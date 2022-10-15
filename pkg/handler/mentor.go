@@ -31,7 +31,7 @@ func (h *Handler) getMentor(c echo.Context) error {
 
 func (h *Handler) putMentor(c echo.Context) error {
 	validate := validator.New()
-	var mentor mementor_back.Mentor
+	var mentor mementor_back.MentorFullInfo
 
 	err := c.Bind(&mentor)
 	if err != nil {

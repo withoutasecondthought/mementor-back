@@ -15,32 +15,32 @@ type MentorMongo struct {
 	db *mongo.Collection
 }
 
-func (m *MentorMongo) GetMyMentor(ctx context.Context, id string) (mementor_back.Mentor, error) {
-	var mentor mementor_back.Mentor
+func (m *MentorMongo) GetMyMentor(ctx context.Context, id string) (mementor_back.MentorFullInfo, error) {
+	var mentor mementor_back.MentorFullInfo
 	hexedId, err := primitive.ObjectIDFromHex(id)
 	if err != nil {
-		return mementor_back.Mentor{}, err
+		return mementor_back.MentorFullInfo{}, err
 	}
 	_ = m.db.FindOne(ctx, primitive.M{"_id": hexedId}).Decode(&mentor)
 
 	return mentor, nil
 }
 
-func (m *MentorMongo) GetMentor(ctx context.Context, id string) (mementor_back.Mentor, error) {
-	var mentor mementor_back.Mentor
+func (m *MentorMongo) GetMentor(ctx context.Context, id string) (mementor_back.MentorFullInfo, error) {
+	var mentor mementor_back.MentorFullInfo
 	hexedId, err := primitive.ObjectIDFromHex(id)
 	if err != nil {
-		return mementor_back.Mentor{}, err
+		return mementor_back.MentorFullInfo{}, err
 	}
 	_ = m.db.FindOne(ctx, primitive.M{"_id": hexedId, "validProfile": true}).Decode(&mentor)
 	if mentor.Email == "" {
-		return mementor_back.Mentor{}, errors.New("no such user")
+		return mementor_back.MentorFullInfo{}, errors.New("no such user")
 	}
 
 	return mentor, nil
 }
 
-func (m *MentorMongo) PutMentor(ctx context.Context, mentor mementor_back.Mentor) error {
+func (m *MentorMongo) PutMentor(ctx context.Context, mentor mementor_back.MentorFullInfo) error {
 	_, err := m.db.UpdateOne(ctx, primitive.M{"_id": mentor.Id}, bson.M{"$set": mentor})
 	return err
 }
@@ -55,13 +55,14 @@ func (m *MentorMongo) DeleteMentor(ctx context.Context, id string) error {
 }
 
 func (m *MentorMongo) ListOfMentors(ctx context.Context, page uint, params interface{}) ([]*mementor_back.Mentor, error) {
+
 	opts := options.Find()
 	opts.SetLimit(20)
 	opts.SetSkip(int64(page) * 20)
 
 	var mentors []*mementor_back.Mentor
 
-	cur, err := m.db.Find(ctx, params, opts)
+	cur, err := m.db.Find(ctx, bson.M{"validProfile": true}, opts)
 	if err != nil {
 		return nil, err
 	}
