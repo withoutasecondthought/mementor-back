@@ -36,7 +36,7 @@ func (m *MentorService) DeleteMentor(ctx context.Context, id string) error {
 	return m.repos.DeleteMentor(ctx, id)
 }
 
-func (m *MentorService) ListOfMentors(ctx context.Context, page uint, params interface{}) ([]*mementor_back.Mentor, error) {
+func (m *MentorService) ListOfMentors(ctx context.Context, page uint, params interface{}) (mementor_back.ListOfMentorsResponse, error) {
 	return m.repos.ListOfMentors(ctx, page, params)
 }
 

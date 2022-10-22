@@ -17,15 +17,15 @@ import (
 	"time"
 )
 
-// @title Mementor back
-// @version         1.0
-// @description     Best backend ever.
+// @title       Mementor back
+// @version     1.0
+// @description Best backend ever.
 
-// @contact.name   @withoutasecondthought
-// @contact.email    mrmarkeld@gmail.com
+// @contact.name  @withoutasecondthought
+// @contact.email mrmarkeld@gmail.com
 
-// @host      api.ilyaprojects.com/
-// @BasePath  /mementor
+// @host     api.ilyaprojects.com/
+// @BasePath /mementor
 
 //@securityDefinitions.apikey ApiKeyAUth
 //@in header

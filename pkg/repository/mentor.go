@@ -54,24 +54,29 @@ func (m *MentorMongo) DeleteMentor(ctx context.Context, id string) error {
 	return err
 }
 
-func (m *MentorMongo) ListOfMentors(ctx context.Context, page uint, params interface{}) ([]*mementor_back.Mentor, error) {
+func (m *MentorMongo) ListOfMentors(ctx context.Context, page uint, params interface{}) (mementor_back.ListOfMentorsResponse, error) {
 
 	opts := options.Find()
 	opts.SetLimit(20)
 	opts.SetSkip(int64(page) * 20)
 
-	var mentors []*mementor_back.Mentor
+	var response mementor_back.ListOfMentorsResponse
 
 	cur, err := m.db.Find(ctx, bson.M{"validProfile": true}, opts)
 	if err != nil {
-		return nil, err
+		return mementor_back.ListOfMentorsResponse{}, err
 	}
-	err = cur.All(ctx, &mentors)
+	err = cur.All(ctx, &response.Mentors)
 	if err != nil {
-		return nil, err
+		return mementor_back.ListOfMentorsResponse{}, err
 	}
 
-	return mentors, nil
+	number, err := m.db.CountDocuments(ctx, bson.M{"validProfile": true})
+	if err != nil {
+		return mementor_back.ListOfMentorsResponse{}, err
+	}
+	response.Pages = int(number / 20)
+	return response, nil
 }
 
 func NewMentor(db *mongo.Database) *MentorMongo {

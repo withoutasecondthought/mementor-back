@@ -5,8 +5,8 @@ import (
 	"github.com/labstack/echo/v4/middleware"
 	"github.com/sirupsen/logrus"
 	echoSwagger "github.com/swaggo/echo-swagger"
-	_ "github.com/swaggo/echo-swagger/example/docs"
 	"go.mongodb.org/mongo-driver/bson/primitive"
+	_ "mementor-back/docs"
 	"mementor-back/pkg/service"
 )
 

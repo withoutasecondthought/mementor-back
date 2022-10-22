@@ -9,6 +9,16 @@ import (
 	"net/http"
 )
 
+// @Summary     sign up
+// @Description sign up
+// @Tags        auth
+// @Accept      json
+// @Produce     json
+// @Params      user   body      mementor_back.Auth  true  "Account data"
+// @Success     200 {object} interface{}
+// @Failure     400 {object} mementor_back.Message
+// @Router      /sign-up [post]
+
 func (h *Handler) signUp(c echo.Context) error {
 	validate := validator.New()
 	var user mementor_back.Auth
@@ -43,6 +53,15 @@ func (h *Handler) signUp(c echo.Context) error {
 	return c.JSON(http.StatusOK, map[string]string{"token": token})
 }
 
+// @Summary     sign in
+// @Description sign in
+// @Tags        auth
+// @Accept      json
+// @Produce     json
+// @Params      user   body      mementor_back.Auth  true  "Account data"
+// @Success     200 {object} interface{}
+// @Failure     400 {object} mementor_back.Message
+// @Router      /sign-in [post]
 func (h *Handler) signIn(c echo.Context) error {
 	validate := validator.New()
 	var user mementor_back.Auth
