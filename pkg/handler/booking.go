@@ -33,7 +33,7 @@ func (h *Handler) newBooking(c echo.Context) error {
 
 	err = h.Services.Book.NewBooking(ctx, booking)
 	if err != nil {
-		sentError := c.JSON(http.StatusBadRequest, mementor_back.Message{Message: err.Error()})
+		sentError := c.JSON(http.StatusInternalServerError, mementor_back.Message{Message: err.Error()})
 		if sentError != nil {
 			logrus.Error(sentError)
 		}

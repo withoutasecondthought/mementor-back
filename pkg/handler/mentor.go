@@ -78,7 +78,7 @@ func (h *Handler) putMentor(c echo.Context) error {
 
 	err = h.Services.PutMentor(ctx, mentor)
 	if err != nil {
-		sentError := c.JSON(http.StatusBadRequest, mementor_back.Message{Message: err.Error()})
+		sentError := c.JSON(http.StatusInternalServerError, mementor_back.Message{Message: err.Error()})
 		if sentError != nil {
 			logrus.Error(sentError)
 		}
@@ -103,7 +103,7 @@ func (h *Handler) deleteMentor(c echo.Context) error {
 	err := h.Services.DeleteMentor(ctx, h.UserId.Hex())
 	if err != nil {
 		if err != nil {
-			sentError := c.JSON(http.StatusBadRequest, mementor_back.Message{Message: err.Error()})
+			sentError := c.JSON(http.StatusInternalServerError, mementor_back.Message{Message: err.Error()})
 			if sentError != nil {
 				logrus.Error(sentError)
 			}
@@ -153,7 +153,7 @@ func (h *Handler) listOfMentors(c echo.Context) error {
 
 	mentors, err := h.Services.ListOfMentors(ctx, uint(page), params)
 	if err != nil {
-		sentError := c.JSON(http.StatusBadRequest, mementor_back.Message{Message: err.Error()})
+		sentError := c.JSON(http.StatusInternalServerError, mementor_back.Message{Message: err.Error()})
 		if sentError != nil {
 			logrus.Error(sentError)
 		}
@@ -177,7 +177,7 @@ func (h *Handler) getYourPage(c echo.Context) error {
 	ctx := context.Background()
 	mentor, err := h.Services.GetMyMentor(ctx, h.UserId.Hex())
 	if err != nil {
-		sentError := c.JSON(http.StatusBadRequest, mementor_back.Message{Message: err.Error()})
+		sentError := c.JSON(http.StatusInternalServerError, mementor_back.Message{Message: err.Error()})
 		if sentError != nil {
 			logrus.Error(sentError)
 		}

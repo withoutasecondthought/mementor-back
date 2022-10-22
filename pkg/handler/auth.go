@@ -44,7 +44,7 @@ func (h *Handler) signUp(c echo.Context) error {
 
 	token, err := h.Services.SignUp(ctx, user)
 	if err != nil {
-		sendError := c.JSON(http.StatusBadRequest, mementor_back.Message{Message: err.Error()})
+		sendError := c.JSON(http.StatusInternalServerError, mementor_back.Message{Message: err.Error()})
 		if sendError != nil {
 			logrus.Error(sendError)
 		}
@@ -87,7 +87,7 @@ func (h *Handler) signIn(c echo.Context) error {
 
 	token, err := h.Services.SignIn(ctx, user)
 	if err != nil {
-		sendError := c.JSON(http.StatusBadRequest, mementor_back.Message{Message: err.Error()})
+		sendError := c.JSON(http.StatusInternalServerError, mementor_back.Message{Message: err.Error()})
 		if sendError != nil {
 			logrus.Error(sendError)
 		}
