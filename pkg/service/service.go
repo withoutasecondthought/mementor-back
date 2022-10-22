@@ -19,14 +19,20 @@ type Authorization interface {
 	SignUp(ctx context.Context, user mementor_back.Auth) (string, error)
 }
 
+type Book interface {
+	NewBooking(ctx context.Context, booking mementor_back.Booking) error
+}
+
 type Service struct {
 	Mentor
 	Authorization
+	Book
 }
 
 func NewService(repos *repository.Repository) *Service {
 	return &Service{
 		Mentor:        NewMentorService(repos.Mentor),
 		Authorization: NewAuthService(repos.Authorization),
+		Book:          NewBooking(repos.Book),
 	}
 }

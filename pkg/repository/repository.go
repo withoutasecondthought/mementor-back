@@ -19,15 +19,21 @@ type Authorization interface {
 	GetUser(ctx context.Context, user mementor_back.Auth) (string, error)
 }
 
+type Book interface {
+	NewBooking(ctx context.Context, booking mementor_back.Booking) error
+}
+
 type Repository struct {
 	Mentor
 	Authorization
+	Book
 }
 
 func NewRepository(db *mongo.Database) *Repository {
 	return &Repository{
 		Mentor:        NewMentor(db),
 		Authorization: NewAuthMongo(db),
+		Book:          NewBookMongo(db),
 	}
 
 }

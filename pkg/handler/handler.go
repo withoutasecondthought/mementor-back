@@ -47,14 +47,19 @@ func (h *Handler) InitRoutes() *echo.Echo {
 	e.POST("/sign-in", h.signIn)
 	e.POST("/sign-up", h.signUp)
 
-	e.GET("/mentor/:id", h.getMentor)
-	e.POST("/mentor/:page", h.listOfMentors)
+	e.POST("/book", h.newBooking)
 
-	mentor := e.Group("/mentor", h.parseJWT)
+	mentor := e.Group("/mentor")
 	{
-		mentor.GET("", h.getYourPage)
-		mentor.PUT("", h.putMentor)
-		mentor.DELETE("", h.deleteMentor)
+		mentor.GET("/:id", h.getMentor)
+		mentor.POST("/:page", h.listOfMentors)
+
+		authmentor := mentor.Group("", h.parseJWT)
+		{
+			authmentor.GET("", h.getYourPage)
+			authmentor.PUT("", h.putMentor)
+			authmentor.DELETE("", h.deleteMentor)
+		}
 
 	}
 

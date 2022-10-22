@@ -55,3 +55,10 @@ type ListOfMentorsResponse struct {
 	Pages   int      `json:"pages" bson:"pages" example:"1"`
 	Mentors []Mentor `json:"mentors" bson:"mentors"`
 }
+
+type Booking struct {
+	CustomerName     string `json:"customerName"  bson:"customerName" validate:"required"`
+	CustomerTelegram string `json:"customerTelegram" bson:"customerTelegram" validate:"required"`
+	MentorId         string `json:"mentorId" bson:"mentorId" validate:"required"`
+	TariffIndex      *int   `json:"tariffIndex" bson:"tariffIndex" validate:"required,min=0,max=2"`
+}
