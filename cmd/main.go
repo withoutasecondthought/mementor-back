@@ -24,7 +24,7 @@ import (
 // @contact.name  @withoutasecondthought
 // @contact.email mrmarkeld@gmail.com
 
-// @host     api.ilyaprojects.com/
+// @host     api.ilyaprojects.com
 // @BasePath /mementor
 
 //@securityDefinitions.apikey ApiKeyAUth

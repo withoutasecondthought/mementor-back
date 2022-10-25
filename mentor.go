@@ -3,7 +3,7 @@ package mementor_back
 import "go.mongodb.org/mongo-driver/bson/primitive"
 
 type Message struct {
-	Message string `json:"message" example:"error occurred while do smth"`
+	Message string `json:"message" example:"some string here"`
 }
 
 type Auth struct {
@@ -30,12 +30,12 @@ type MentorFullInfo struct {
 	Grade               string              `json:"grade" bson:"grade" validate:"required" example:"junior"`
 	Language            []string            `json:"language" bson:"language" example:"ru, en"`
 	Tariff              []Tariff            `json:"tariff" bson:"tariff"  validate:"required,len=3"`
-	ExperienceSince     uint                `json:"experienceSince" bson:"experienceSince"  validate:"required" example:"Date"`
+	ExperienceSince     uint                `json:"experienceSince" bson:"experienceSince"  validate:"required" example:"2019"`
 	Email               string              `json:"email,omitempty" bson:"email,omitempty" validate:"email" example:"mrmarkeld@gmail.com"`
 	Description         string              `json:"description" bson:"description" example:"Im the best from the best"`
 	ClassesDone         uint                `json:"classesDone" bson:"classesDone" example:"21"`
 	Education           []Education         `json:"education" bson:"education"`
-	Technology          []string            `json:"technology" bson:"technology"  validate:"required" example:"cpp, go,scals"`
+	Technology          []string            `json:"technology" bson:"technology"  validate:"required" example:"cpp, go,scala"`
 	CanHelpWith         []string            `json:"canHelpWith" bson:"canHelpWith" example:"Your mother, Your sister"`
 	ValidProfile        bool                `json:"validProfile" bson:"validProfile" example:"true"`
 }

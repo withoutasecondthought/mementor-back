@@ -1,0 +1,418 @@
+basePath: /mementor
+definitions:
+  handler.loginResponse:
+    properties:
+      token:
+        example: Bearer token
+        type: string
+    type: object
+  mementor_back.Auth:
+    properties:
+      email:
+        example: mrmarkeld@gmail.com
+        type: string
+      password:
+        example: "123456"
+        minLength: 6
+        type: string
+    required:
+    - email
+    - password
+    type: object
+  mementor_back.Booking:
+    properties:
+      customerName:
+        type: string
+      customerTelegram:
+        type: string
+      mentorId:
+        type: string
+      tariffIndex:
+        maximum: 2
+        minimum: 0
+        type: integer
+    required:
+    - customerName
+    - customerTelegram
+    - mentorId
+    - tariffIndex
+    type: object
+  mementor_back.Education:
+    properties:
+      department:
+        example: computer science
+        type: string
+      place:
+        example: MGU
+        type: string
+    required:
+    - department
+    - place
+    type: object
+  mementor_back.ListOfMentorsResponse:
+    properties:
+      mentors:
+        items:
+          $ref: '#/definitions/mementor_back.Mentor'
+        type: array
+      pages:
+        example: 1
+        type: integer
+    type: object
+  mementor_back.Mentor:
+    properties:
+      _id:
+        example: 634afbd6c7cc8190a74feb35
+        type: string
+      grade:
+        example: junior
+        type: string
+      language:
+        example:
+        - russian
+        - ' english'
+        items:
+          type: string
+        type: array
+      name:
+        example: Test
+        type: string
+      programmingLanguage:
+        example:
+        - python
+        - js
+        - trash
+        items:
+          type: string
+        type: array
+      surname:
+        example: Subject
+        type: string
+      tariff:
+        items:
+          $ref: '#/definitions/mementor_back.Tariff'
+        type: array
+    required:
+    - grade
+    - name
+    - programmingLanguage
+    - surname
+    - tariff
+    type: object
+  mementor_back.MentorFullInfo:
+    properties:
+      _id:
+        example: 634afbd6c7cc8190a74feb35
+        type: string
+      canHelpWith:
+        example:
+        - Your mother
+        - ' Your sister'
+        items:
+          type: string
+        type: array
+      classesDone:
+        example: 21
+        type: integer
+      description:
+        example: Im the best from the best
+        type: string
+      education:
+        items:
+          $ref: '#/definitions/mementor_back.Education'
+        type: array
+      email:
+        example: mrmarkeld@gmail.com
+        type: string
+      experienceSince:
+        example: 2019
+        type: integer
+      grade:
+        example: junior
+        type: string
+      language:
+        example:
+        - ru
+        - ' en'
+        items:
+          type: string
+        type: array
+      name:
+        example: Test
+        type: string
+      programmingLanguage:
+        example:
+        - cpp
+        - ' go'
+        - ' scala'
+        items:
+          type: string
+        type: array
+      surname:
+        example: Subject
+        type: string
+      tariff:
+        items:
+          $ref: '#/definitions/mementor_back.Tariff'
+        type: array
+      technology:
+        example:
+        - cpp
+        - ' go'
+        - scala
+        items:
+          type: string
+        type: array
+      validProfile:
+        example: true
+        type: boolean
+    required:
+    - experienceSince
+    - grade
+    - name
+    - programmingLanguage
+    - surname
+    - tariff
+    - technology
+    type: object
+  mementor_back.Message:
+    properties:
+      message:
+        example: some string here
+        type: string
+    type: object
+  mementor_back.Tariff:
+    properties:
+      description:
+        example: Free for you my little friend
+        maxLength: 255
+        type: string
+      name:
+        example: big boby
+        type: string
+      price:
+        example: 2000
+        type: integer
+    required:
+    - description
+    - name
+    - price
+    type: object
+host: api.ilyaprojects.com
+info:
+  contact:
+    email: mrmarkeld@gmail.com
+    name: '@withoutasecondthought'
+  description: Best backend ever.
+  title: Mementor back
+  version: "1.0"
+paths:
+  /book:
+    post:
+      consumes:
+      - application/json
+      description: book mentor of your dream
+      parameters:
+      - description: params
+        in: body
+        name: params
+        required: true
+        schema:
+          $ref: '#/definitions/mementor_back.Booking'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/mementor_back.Message'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/mementor_back.Message'
+      summary: New Booking
+      tags:
+      - booking
+  /mentor:
+    delete:
+      description: remove mentor from bd
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ok
+          schema:
+            $ref: '#/definitions/mementor_back.Message'
+        "500":
+          description: error occurred
+          schema:
+            $ref: '#/definitions/mementor_back.Message'
+      summary: Delete mentor
+      tags:
+      - mentor
+    get:
+      description: get your page
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/mementor_back.MentorFullInfo'
+        "500":
+          description: error occurred
+          schema:
+            $ref: '#/definitions/mementor_back.Message'
+      summary: Show your Page
+      tags:
+      - mentor
+    put:
+      consumes:
+      - application/json
+      description: Send full mentor info to update your profile
+      parameters:
+      - description: Account info
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/mementor_back.MentorFullInfo'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ok
+          schema:
+            $ref: '#/definitions/mementor_back.Message'
+        "400":
+          description: error occurred
+          schema:
+            $ref: '#/definitions/mementor_back.Message'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/mementor_back.Message'
+        "500":
+          description: error occurred
+          schema:
+            $ref: '#/definitions/mementor_back.Message'
+      summary: change mentor
+      tags:
+      - mentor
+  /mentor/{id}:
+    get:
+      description: Give you mentor without personal fields
+      parameters:
+      - description: Account ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/mementor_back.MentorFullInfo'
+        "404":
+          description: error occured
+          schema:
+            $ref: '#/definitions/mementor_back.Message'
+      summary: Show a mentor
+      tags:
+      - mentor
+  /mentor/{page}:
+    post:
+      consumes:
+      - application/json
+      description: get mentors
+      parameters:
+      - description: number of page
+        in: path
+        name: page
+        required: true
+        type: integer
+      - description: params
+        in: body
+        name: params
+        schema:
+          $ref: '#/definitions/mementor_back.MentorFullInfo'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/mementor_back.ListOfMentorsResponse'
+        "400":
+          description: error occurred
+          schema:
+            $ref: '#/definitions/mementor_back.Message'
+        "500":
+          description: error occurred
+          schema:
+            $ref: '#/definitions/mementor_back.Message'
+      summary: return List of Mentors
+      tags:
+      - mentor
+  /sign-in:
+    post:
+      consumes:
+      - application/json
+      description: sign in
+      operationId: sign-in
+      parameters:
+      - description: Account data
+        in: body
+        name: userinfo
+        required: true
+        schema:
+          $ref: '#/definitions/mementor_back.Auth'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handler.loginResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/mementor_back.Message'
+      summary: sign in
+      tags:
+      - auth
+  /sign-up:
+    post:
+      consumes:
+      - application/json
+      description: sign up
+      operationId: sign-up
+      parameters:
+      - description: Account data
+        in: body
+        name: userinfo
+        required: true
+        schema:
+          $ref: '#/definitions/mementor_back.Auth'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handler.loginResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/mementor_back.Message'
+      summary: sign up
+      tags:
+      - auth
+securityDefinitions:
+  ApiKeyAUth:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"

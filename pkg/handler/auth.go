@@ -12,13 +12,13 @@ import (
 // @Summary     sign up
 // @Description sign up
 // @Tags        auth
+// @ID sign-up
 // @Accept      json
 // @Produce     json
-// @Params      user   body      mementor_back.Auth  true  "Account data"
-// @Success     200 {object} interface{}
+// @Param      userinfo body mementor_back.Auth true "Account data"
+// @Success     200 {object} loginResponse
 // @Failure     400 {object} mementor_back.Message
 // @Router      /sign-up [post]
-
 func (h *Handler) signUp(c echo.Context) error {
 	validate := validator.New()
 	var user mementor_back.Auth
@@ -50,16 +50,17 @@ func (h *Handler) signUp(c echo.Context) error {
 		}
 		return err
 	}
-	return c.JSON(http.StatusOK, map[string]string{"token": token})
+	return c.JSON(http.StatusOK, loginResponse{Token: token})
 }
 
 // @Summary     sign in
 // @Description sign in
 // @Tags        auth
+// @ID sign-in
 // @Accept      json
 // @Produce     json
-// @Params      user   body      mementor_back.Auth  true  "Account data"
-// @Success     200 {object} interface{}
+// @Param      userinfo body mementor_back.Auth true "Account data"
+// @Success     200 {object} loginResponse
 // @Failure     400 {object} mementor_back.Message
 // @Router      /sign-in [post]
 func (h *Handler) signIn(c echo.Context) error {
@@ -93,9 +94,13 @@ func (h *Handler) signIn(c echo.Context) error {
 		}
 		return err
 	}
-	sendError := c.JSON(http.StatusOK, map[string]string{"token": token})
+	sendError := c.JSON(http.StatusOK, loginResponse{Token: token})
 	if sendError != nil {
 		logrus.Error(sendError)
 	}
 	return nil
+}
+
+type loginResponse struct {
+	Token string `json:"token" example:"Bearer token"`
 }

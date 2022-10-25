@@ -9,6 +9,15 @@ import (
 	"net/http"
 )
 
+// @Summary     New Booking
+// @Description book mentor of your dream
+// @Tags        booking
+// @Accept      json
+// @Produce     json
+// @Param       params body     mementor_back.Booking true "params"
+// @Success     200    {object} mementor_back.Message
+// @Failure     400    {object} mementor_back.Message
+// @Router /book [post]
 func (h *Handler) newBooking(c echo.Context) error {
 	var booking mementor_back.Booking
 	validate := validator.New()

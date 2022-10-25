@@ -12,15 +12,13 @@ import (
 )
 
 // @Summary     Show a mentor
-// @Description Give you mentor wuthout personal fields
+// @Description Give you mentor without personal fields
 // @Tags        mentor
-// @Accept      json
-// @Produce     string
+// @Produce     json
 // @Param       id  path     string true "Account ID"
 // @Success     200 {object} mementor_back.MentorFullInfo
-// @Failure     404 {object} mementor_back.Message
+// @Failure     404 {object} mementor_back.Message "error occured"
 // @Router      /mentor/{id} [get]
-
 func (h *Handler) getMentor(c echo.Context) error {
 	id := c.Param("id")
 
@@ -40,17 +38,17 @@ func (h *Handler) getMentor(c echo.Context) error {
 }
 
 // @Summary     change mentor
-// @Description get string by ID
+// @Description Send full mentor info to update your profile
 // @Secure      ApiAuthKey
 // @Tags        mentor
 // @Accept      json
 // @Produce     json
-// @Param       user body     mementor_back.MentorFullInfo true "Account ID"
-// @Success     200  {string} "ok"
-// @Failure     400  {object} mementor_back.Message
-// @Failure     401  {object} mementor_back.Message
+// @Param       user body     mementor_back.MentorFullInfo true "Account info"
+// @Success     200  {object} mementor_back.Message "ok"
+// @Failure     400  {object} mementor_back.Message "error occurred"
+// @Failure     401  {object} mementor_back.Message "Unauthorized"
+// @Failure     500  {object} mementor_back.Message "error occurred"
 // @Router      /mentor [put]
-
 func (h *Handler) putMentor(c echo.Context) error {
 	validate := validator.New()
 	var mentor mementor_back.MentorFullInfo
@@ -84,19 +82,17 @@ func (h *Handler) putMentor(c echo.Context) error {
 		}
 		return err
 	}
-	return c.String(http.StatusOK, "ok")
+	return c.JSON(http.StatusOK, mementor_back.Message{Message: "ok"})
 }
 
 // @Summary     Delete mentor
 // @Description remove mentor from bd
 // @Secure      ApiAuthKey
 // @Tags        mentor
-// @Produce     string
-// @Success     200 {string} "ok"
-// @Failure     400 {object} mementor_back.Message
-// @Failure     401 {object} mementor_back.Message
-// @Router      /mementor [delete]
-
+// @Produce     json
+// @Success     200 {object} mementor_back.Message "ok"
+// @Failure     500 {object} mementor_back.Message "error occurred"
+// @Router      /mentor [delete]
 func (h *Handler) deleteMentor(c echo.Context) error {
 	ctx := context.Background()
 
@@ -110,22 +106,20 @@ func (h *Handler) deleteMentor(c echo.Context) error {
 			return err
 		}
 	}
-	return c.String(http.StatusOK, "ok")
+	return c.JSON(http.StatusOK, mementor_back.Message{Message: "ok"})
 }
 
 // @Summary     return List of Mentors
 // @Description get mentors
 // @Tags        mentor
 // @Accept      json
-// @Accept      path
 // @Produce     json
 // @Param       page   path     int       true  "number of page"
-// @Param       params body     interface false "params"
-// @Success     200    {object} mementor_back.Message
-// @Failure     400    {object} httputil.HTTPError
-
+// @Param       params body     mementor_back.MentorFullInfo false "params"
+// @Success     200    {object} mementor_back.ListOfMentorsResponse
+// @Failure     400  {object} mementor_back.Message "error occurred"
+// @Failure     500  {object} mementor_back.Message "error occurred"
 // @Router /mentor/{page} [post]
-
 func (h *Handler) listOfMentors(c echo.Context) error {
 	var params interface{}
 	ctx := context.Background()
@@ -169,10 +163,8 @@ func (h *Handler) listOfMentors(c echo.Context) error {
 // @Tags        mentor
 // @Produce     json
 // @Success     200 {object} mementor_back.MentorFullInfo
-// @Failure     400 {object} mementor_back.Message
-// @Failure     401 {object} mementor_back.Message
+// @Failure     500 {object} mementor_back.Message "error occurred"
 // @Router      /mentor [get]
-
 func (h *Handler) getYourPage(c echo.Context) error {
 	ctx := context.Background()
 	mentor, err := h.Services.GetMyMentor(ctx, h.UserId.Hex())
