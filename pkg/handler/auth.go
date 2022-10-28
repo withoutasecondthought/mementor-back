@@ -103,4 +103,4 @@ func (h *Handler) signIn(c echo.Context) error {
 
 type loginResponse struct {
 	Token string `json:"token" example:"Bearer token"`
-}
+} //@name PostAuthResponse

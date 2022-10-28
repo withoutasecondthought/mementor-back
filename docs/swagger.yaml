@@ -1,105 +1,12 @@
 basePath: /mementor
 definitions:
-  handler.loginResponse:
+  BasicResponse:
     properties:
-      token:
-        example: Bearer token
+      message:
+        example: some string here
         type: string
     type: object
-  mementor_back.Auth:
-    properties:
-      email:
-        example: mrmarkeld@gmail.com
-        type: string
-      password:
-        example: "123456"
-        minLength: 6
-        type: string
-    required:
-    - email
-    - password
-    type: object
-  mementor_back.Booking:
-    properties:
-      customerName:
-        type: string
-      customerTelegram:
-        type: string
-      mentorId:
-        type: string
-      tariffIndex:
-        maximum: 2
-        minimum: 0
-        type: integer
-    required:
-    - customerName
-    - customerTelegram
-    - mentorId
-    - tariffIndex
-    type: object
-  mementor_back.Education:
-    properties:
-      department:
-        example: computer science
-        type: string
-      place:
-        example: MGU
-        type: string
-    required:
-    - department
-    - place
-    type: object
-  mementor_back.ListOfMentorsResponse:
-    properties:
-      mentors:
-        items:
-          $ref: '#/definitions/mementor_back.Mentor'
-        type: array
-      pages:
-        example: 1
-        type: integer
-    type: object
-  mementor_back.Mentor:
-    properties:
-      _id:
-        example: 634afbd6c7cc8190a74feb35
-        type: string
-      grade:
-        example: junior
-        type: string
-      language:
-        example:
-        - russian
-        - ' english'
-        items:
-          type: string
-        type: array
-      name:
-        example: Test
-        type: string
-      programmingLanguage:
-        example:
-        - python
-        - js
-        - trash
-        items:
-          type: string
-        type: array
-      surname:
-        example: Subject
-        type: string
-      tariff:
-        items:
-          $ref: '#/definitions/mementor_back.Tariff'
-        type: array
-    required:
-    - grade
-    - name
-    - programmingLanguage
-    - surname
-    - tariff
-    type: object
-  mementor_back.MentorFullInfo:
+  GetMentorResponse:
     properties:
       _id:
         example: 634afbd6c7cc8190a74feb35
@@ -175,11 +82,256 @@ definitions:
     - tariff
     - technology
     type: object
-  mementor_back.Message:
+  PostAuthRequest:
     properties:
-      message:
-        example: some string here
+      email:
+        example: mrmarkeld@gmail.com
         type: string
+      password:
+        example: "123456"
+        minLength: 6
+        type: string
+    required:
+    - email
+    - password
+    type: object
+  PostAuthResponse:
+    properties:
+      token:
+        example: Bearer token
+        type: string
+    type: object
+  PostBookingRequest:
+    properties:
+      customerName:
+        type: string
+      customerTelegram:
+        type: string
+      mentorId:
+        type: string
+      tariffIndex:
+        maximum: 2
+        minimum: 0
+        type: integer
+    required:
+    - customerName
+    - customerTelegram
+    - mentorId
+    - tariffIndex
+    type: object
+  PostMentorRequest:
+    properties:
+      _id:
+        example: 634afbd6c7cc8190a74feb35
+        type: string
+      canHelpWith:
+        example:
+        - Your mother
+        - ' Your sister'
+        items:
+          type: string
+        type: array
+      classesDone:
+        example: 21
+        type: integer
+      description:
+        example: Im the best from the best
+        type: string
+      education:
+        items:
+          $ref: '#/definitions/mementor_back.Education'
+        type: array
+      email:
+        example: mrmarkeld@gmail.com
+        type: string
+      experienceSince:
+        example: 2019
+        type: integer
+      grade:
+        example: junior
+        type: string
+      language:
+        example:
+        - ru
+        - ' en'
+        items:
+          type: string
+        type: array
+      name:
+        example: Test
+        type: string
+      programmingLanguage:
+        example:
+        - cpp
+        - ' go'
+        - ' scala'
+        items:
+          type: string
+        type: array
+      surname:
+        example: Subject
+        type: string
+      tariff:
+        items:
+          $ref: '#/definitions/mementor_back.Tariff'
+        type: array
+      technology:
+        example:
+        - cpp
+        - ' go'
+        - scala
+        items:
+          type: string
+        type: array
+      validProfile:
+        example: true
+        type: boolean
+    required:
+    - experienceSince
+    - grade
+    - name
+    - programmingLanguage
+    - surname
+    - tariff
+    - technology
+    type: object
+  PostMentorResponse:
+    properties:
+      mentors:
+        items:
+          $ref: '#/definitions/mementor_back.Mentor'
+        type: array
+      pages:
+        example: 1
+        type: integer
+    type: object
+  PutMentorRequest:
+    properties:
+      _id:
+        example: 634afbd6c7cc8190a74feb35
+        type: string
+      canHelpWith:
+        example:
+        - Your mother
+        - ' Your sister'
+        items:
+          type: string
+        type: array
+      classesDone:
+        example: 21
+        type: integer
+      description:
+        example: Im the best from the best
+        type: string
+      education:
+        items:
+          $ref: '#/definitions/mementor_back.Education'
+        type: array
+      email:
+        example: mrmarkeld@gmail.com
+        type: string
+      experienceSince:
+        example: 2019
+        type: integer
+      grade:
+        example: junior
+        type: string
+      language:
+        example:
+        - ru
+        - ' en'
+        items:
+          type: string
+        type: array
+      name:
+        example: Test
+        type: string
+      programmingLanguage:
+        example:
+        - cpp
+        - ' go'
+        - ' scala'
+        items:
+          type: string
+        type: array
+      surname:
+        example: Subject
+        type: string
+      tariff:
+        items:
+          $ref: '#/definitions/mementor_back.Tariff'
+        type: array
+      technology:
+        example:
+        - cpp
+        - ' go'
+        - scala
+        items:
+          type: string
+        type: array
+      validProfile:
+        example: true
+        type: boolean
+    required:
+    - experienceSince
+    - grade
+    - name
+    - programmingLanguage
+    - surname
+    - tariff
+    - technology
+    type: object
+  mementor_back.Education:
+    properties:
+      department:
+        example: computer science
+        type: string
+      place:
+        example: MGU
+        type: string
+    required:
+    - department
+    - place
+    type: object
+  mementor_back.Mentor:
+    properties:
+      _id:
+        example: 634afbd6c7cc8190a74feb35
+        type: string
+      grade:
+        example: junior
+        type: string
+      language:
+        example:
+        - russian
+        - ' english'
+        items:
+          type: string
+        type: array
+      name:
+        example: Test
+        type: string
+      programmingLanguage:
+        example:
+        - python
+        - js
+        - trash
+        items:
+          type: string
+        type: array
+      surname:
+        example: Subject
+        type: string
+      tariff:
+        items:
+          $ref: '#/definitions/mementor_back.Tariff'
+        type: array
+    required:
+    - grade
+    - name
+    - programmingLanguage
+    - surname
+    - tariff
     type: object
   mementor_back.Tariff:
     properties:
@@ -218,18 +370,18 @@ paths:
         name: params
         required: true
         schema:
-          $ref: '#/definitions/mementor_back.Booking'
+          $ref: '#/definitions/PostBookingRequest'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/mementor_back.Message'
+            $ref: '#/definitions/BasicResponse'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/mementor_back.Message'
+            $ref: '#/definitions/BasicResponse'
       summary: New Booking
       tags:
       - booking
@@ -242,11 +394,11 @@ paths:
         "200":
           description: ok
           schema:
-            $ref: '#/definitions/mementor_back.Message'
+            $ref: '#/definitions/BasicResponse'
         "500":
           description: error occurred
           schema:
-            $ref: '#/definitions/mementor_back.Message'
+            $ref: '#/definitions/BasicResponse'
       summary: Delete mentor
       tags:
       - mentor
@@ -258,11 +410,11 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/mementor_back.MentorFullInfo'
+            $ref: '#/definitions/GetMentorResponse'
         "500":
           description: error occurred
           schema:
-            $ref: '#/definitions/mementor_back.Message'
+            $ref: '#/definitions/BasicResponse'
       summary: Show your Page
       tags:
       - mentor
@@ -276,26 +428,26 @@ paths:
         name: user
         required: true
         schema:
-          $ref: '#/definitions/mementor_back.MentorFullInfo'
+          $ref: '#/definitions/PutMentorRequest'
       produces:
       - application/json
       responses:
         "200":
           description: ok
           schema:
-            $ref: '#/definitions/mementor_back.Message'
+            $ref: '#/definitions/BasicResponse'
         "400":
           description: error occurred
           schema:
-            $ref: '#/definitions/mementor_back.Message'
+            $ref: '#/definitions/BasicResponse'
         "401":
           description: Unauthorized
           schema:
-            $ref: '#/definitions/mementor_back.Message'
+            $ref: '#/definitions/BasicResponse'
         "500":
           description: error occurred
           schema:
-            $ref: '#/definitions/mementor_back.Message'
+            $ref: '#/definitions/BasicResponse'
       summary: change mentor
       tags:
       - mentor
@@ -314,11 +466,11 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/mementor_back.MentorFullInfo'
+            $ref: '#/definitions/GetMentorResponse'
         "404":
           description: error occured
           schema:
-            $ref: '#/definitions/mementor_back.Message'
+            $ref: '#/definitions/BasicResponse'
       summary: Show a mentor
       tags:
       - mentor
@@ -337,22 +489,22 @@ paths:
         in: body
         name: params
         schema:
-          $ref: '#/definitions/mementor_back.MentorFullInfo'
+          $ref: '#/definitions/PostMentorRequest'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/mementor_back.ListOfMentorsResponse'
+            $ref: '#/definitions/PostMentorResponse'
         "400":
           description: error occurred
           schema:
-            $ref: '#/definitions/mementor_back.Message'
+            $ref: '#/definitions/BasicResponse'
         "500":
           description: error occurred
           schema:
-            $ref: '#/definitions/mementor_back.Message'
+            $ref: '#/definitions/BasicResponse'
       summary: return List of Mentors
       tags:
       - mentor
@@ -368,18 +520,18 @@ paths:
         name: userinfo
         required: true
         schema:
-          $ref: '#/definitions/mementor_back.Auth'
+          $ref: '#/definitions/PostAuthRequest'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/handler.loginResponse'
+            $ref: '#/definitions/PostAuthResponse'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/mementor_back.Message'
+            $ref: '#/definitions/BasicResponse'
       summary: sign in
       tags:
       - auth
@@ -395,18 +547,18 @@ paths:
         name: userinfo
         required: true
         schema:
-          $ref: '#/definitions/mementor_back.Auth'
+          $ref: '#/definitions/PostAuthRequest'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/handler.loginResponse'
+            $ref: '#/definitions/PostAuthResponse'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/mementor_back.Message'
+            $ref: '#/definitions/BasicResponse'
       summary: sign up
       tags:
       - auth

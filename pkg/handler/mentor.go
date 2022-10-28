@@ -43,7 +43,7 @@ func (h *Handler) getMentor(c echo.Context) error {
 // @Tags        mentor
 // @Accept      json
 // @Produce     json
-// @Param       user body     mementor_back.MentorFullInfo true "Account info"
+// @Param       user body     mementor_back.PutMentorRequest true "Account info"
 // @Success     200  {object} mementor_back.Message "ok"
 // @Failure     400  {object} mementor_back.Message "error occurred"
 // @Failure     401  {object} mementor_back.Message "Unauthorized"
@@ -115,7 +115,7 @@ func (h *Handler) deleteMentor(c echo.Context) error {
 // @Accept      json
 // @Produce     json
 // @Param       page   path     int       true  "number of page"
-// @Param       params body     mementor_back.MentorFullInfo false "params"
+// @Param       params body     mementor_back.PostMentorRequest false "params"
 // @Success     200    {object} mementor_back.ListOfMentorsResponse
 // @Failure     400  {object} mementor_back.Message "error occurred"
 // @Failure     500  {object} mementor_back.Message "error occurred"

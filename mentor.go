@@ -4,13 +4,13 @@ import "go.mongodb.org/mongo-driver/bson/primitive"
 
 type Message struct {
 	Message string `json:"message" example:"some string here"`
-}
+} //@name BasicResponse
 
 type Auth struct {
 	Email        string `json:"email" validate:"required,email" example:"mrmarkeld@gmail.com"`
 	Password     string `json:"password" validate:"required,min=6" example:"123456"`
 	ValidProfile bool   `json:"-,omitempty" bson:"validProfile,omitempty" example:"false"`
-}
+} //@name PostAuthRequest
 
 type Mentor struct {
 	Id                  *primitive.ObjectID `json:"_id" bson:"_id" example:"634afbd6c7cc8190a74feb35"`
@@ -38,7 +38,15 @@ type MentorFullInfo struct {
 	Technology          []string            `json:"technology" bson:"technology"  validate:"required" example:"cpp, go,scala"`
 	CanHelpWith         []string            `json:"canHelpWith" bson:"canHelpWith" example:"Your mother, Your sister"`
 	ValidProfile        bool                `json:"validProfile" bson:"validProfile" example:"true"`
-}
+} //@name GetMentorResponse
+
+type PostMentorRequest struct {
+	MentorFullInfo
+} //@name PostMentorRequest
+
+type PutMentorRequest struct {
+	MentorFullInfo
+} //@name PutMentorRequest
 
 type Education struct {
 	Place      string `json:"place" bson:"place"  validate:"required" example:"MGU"`
@@ -54,11 +62,11 @@ type Tariff struct {
 type ListOfMentorsResponse struct {
 	Pages   int      `json:"pages" bson:"pages" example:"1"`
 	Mentors []Mentor `json:"mentors" bson:"mentors"`
-}
+} //@name PostMentorResponse
 
 type Booking struct {
 	CustomerName     string `json:"customerName"  bson:"customerName" validate:"required"`
 	CustomerTelegram string `json:"customerTelegram" bson:"customerTelegram" validate:"required"`
 	MentorId         string `json:"mentorId" bson:"mentorId" validate:"required"`
 	TariffIndex      *int   `json:"tariffIndex" bson:"tariffIndex" validate:"required,min=0,max=2"`
-}
+} //@name PostBookingRequest
