@@ -6,6 +6,18 @@ definitions:
         example: some string here
         type: string
     type: object
+  Education:
+    properties:
+      department:
+        example: computer science
+        type: string
+      place:
+        example: MGU
+        type: string
+    required:
+    - department
+    - place
+    type: object
   GetMentorResponse:
     properties:
       _id:
@@ -26,7 +38,7 @@ definitions:
         type: string
       education:
         items:
-          $ref: '#/definitions/mementor_back.Education'
+          $ref: '#/definitions/Education'
         type: array
       email:
         example: mrmarkeld@gmail.com
@@ -35,6 +47,10 @@ definitions:
         example: 2019
         type: integer
       grade:
+        enum:
+        - junior
+        - middle
+        - senior
         example: junior
         type: string
       language:
@@ -60,7 +76,7 @@ definitions:
         type: string
       tariff:
         items:
-          $ref: '#/definitions/mementor_back.Tariff'
+          $ref: '#/definitions/Tariff'
         type: array
       technology:
         example:
@@ -74,6 +90,7 @@ definitions:
         example: true
         type: boolean
     required:
+    - email
     - experienceSince
     - grade
     - name
@@ -81,6 +98,50 @@ definitions:
     - surname
     - tariff
     - technology
+    type: object
+  Mentor:
+    properties:
+      _id:
+        example: 634afbd6c7cc8190a74feb35
+        type: string
+      grade:
+        enum:
+        - junior
+        - middle
+        - senior
+        example: junior
+        type: string
+      language:
+        example:
+        - russian
+        - ' english'
+        items:
+          type: string
+        type: array
+      name:
+        example: Test
+        type: string
+      programmingLanguage:
+        example:
+        - python
+        - js
+        - trash
+        items:
+          type: string
+        type: array
+      surname:
+        example: Subject
+        type: string
+      tariff:
+        items:
+          $ref: '#/definitions/Tariff'
+        type: array
+    required:
+    - grade
+    - name
+    - programmingLanguage
+    - surname
+    - tariff
     type: object
   PostAuthRequest:
     properties:
@@ -139,7 +200,7 @@ definitions:
         type: string
       education:
         items:
-          $ref: '#/definitions/mementor_back.Education'
+          $ref: '#/definitions/Education'
         type: array
       email:
         example: mrmarkeld@gmail.com
@@ -148,6 +209,10 @@ definitions:
         example: 2019
         type: integer
       grade:
+        enum:
+        - junior
+        - middle
+        - senior
         example: junior
         type: string
       language:
@@ -173,7 +238,7 @@ definitions:
         type: string
       tariff:
         items:
-          $ref: '#/definitions/mementor_back.Tariff'
+          $ref: '#/definitions/Tariff'
         type: array
       technology:
         example:
@@ -187,6 +252,7 @@ definitions:
         example: true
         type: boolean
     required:
+    - email
     - experienceSince
     - grade
     - name
@@ -199,11 +265,14 @@ definitions:
     properties:
       mentors:
         items:
-          $ref: '#/definitions/mementor_back.Mentor'
+          $ref: '#/definitions/Mentor'
         type: array
       pages:
         example: 1
         type: integer
+    required:
+    - mentors
+    - pages
     type: object
   PutMentorRequest:
     properties:
@@ -225,7 +294,7 @@ definitions:
         type: string
       education:
         items:
-          $ref: '#/definitions/mementor_back.Education'
+          $ref: '#/definitions/Education'
         type: array
       email:
         example: mrmarkeld@gmail.com
@@ -234,6 +303,10 @@ definitions:
         example: 2019
         type: integer
       grade:
+        enum:
+        - junior
+        - middle
+        - senior
         example: junior
         type: string
       language:
@@ -259,7 +332,7 @@ definitions:
         type: string
       tariff:
         items:
-          $ref: '#/definitions/mementor_back.Tariff'
+          $ref: '#/definitions/Tariff'
         type: array
       technology:
         example:
@@ -273,6 +346,7 @@ definitions:
         example: true
         type: boolean
     required:
+    - email
     - experienceSince
     - grade
     - name
@@ -281,59 +355,7 @@ definitions:
     - tariff
     - technology
     type: object
-  mementor_back.Education:
-    properties:
-      department:
-        example: computer science
-        type: string
-      place:
-        example: MGU
-        type: string
-    required:
-    - department
-    - place
-    type: object
-  mementor_back.Mentor:
-    properties:
-      _id:
-        example: 634afbd6c7cc8190a74feb35
-        type: string
-      grade:
-        example: junior
-        type: string
-      language:
-        example:
-        - russian
-        - ' english'
-        items:
-          type: string
-        type: array
-      name:
-        example: Test
-        type: string
-      programmingLanguage:
-        example:
-        - python
-        - js
-        - trash
-        items:
-          type: string
-        type: array
-      surname:
-        example: Subject
-        type: string
-      tariff:
-        items:
-          $ref: '#/definitions/mementor_back.Tariff'
-        type: array
-    required:
-    - grade
-    - name
-    - programmingLanguage
-    - surname
-    - tariff
-    type: object
-  mementor_back.Tariff:
+  Tariff:
     properties:
       description:
         example: Free for you my little friend

@@ -339,9 +339,27 @@ const docTemplate = `{
                 }
             }
         },
+        "Education": {
+            "type": "object",
+            "required": [
+                "department",
+                "place"
+            ],
+            "properties": {
+                "department": {
+                    "type": "string",
+                    "example": "computer science"
+                },
+                "place": {
+                    "type": "string",
+                    "example": "MGU"
+                }
+            }
+        },
         "GetMentorResponse": {
             "type": "object",
             "required": [
+                "email",
                 "experienceSince",
                 "grade",
                 "name",
@@ -376,7 +394,7 @@ const docTemplate = `{
                 "education": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/mementor_back.Education"
+                        "$ref": "#/definitions/Education"
                     }
                 },
                 "email": {
@@ -389,6 +407,11 @@ const docTemplate = `{
                 },
                 "grade": {
                     "type": "string",
+                    "enum": [
+                        "junior",
+                        "middle",
+                        "senior"
+                    ],
                     "example": "junior"
                 },
                 "language": {
@@ -423,7 +446,7 @@ const docTemplate = `{
                 "tariff": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/mementor_back.Tariff"
+                        "$ref": "#/definitions/Tariff"
                     }
                 },
                 "technology": {
@@ -440,6 +463,66 @@ const docTemplate = `{
                 "validProfile": {
                     "type": "boolean",
                     "example": true
+                }
+            }
+        },
+        "Mentor": {
+            "type": "object",
+            "required": [
+                "grade",
+                "name",
+                "programmingLanguage",
+                "surname",
+                "tariff"
+            ],
+            "properties": {
+                "_id": {
+                    "type": "string",
+                    "example": "634afbd6c7cc8190a74feb35"
+                },
+                "grade": {
+                    "type": "string",
+                    "enum": [
+                        "junior",
+                        "middle",
+                        "senior"
+                    ],
+                    "example": "junior"
+                },
+                "language": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "example": [
+                        "russian",
+                        " english"
+                    ]
+                },
+                "name": {
+                    "type": "string",
+                    "example": "Test"
+                },
+                "programmingLanguage": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "example": [
+                        "python",
+                        "js",
+                        "trash"
+                    ]
+                },
+                "surname": {
+                    "type": "string",
+                    "example": "Subject"
+                },
+                "tariff": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Tariff"
+                    }
                 }
             }
         },
@@ -498,6 +581,7 @@ const docTemplate = `{
         "PostMentorRequest": {
             "type": "object",
             "required": [
+                "email",
                 "experienceSince",
                 "grade",
                 "name",
@@ -532,7 +616,7 @@ const docTemplate = `{
                 "education": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/mementor_back.Education"
+                        "$ref": "#/definitions/Education"
                     }
                 },
                 "email": {
@@ -545,6 +629,11 @@ const docTemplate = `{
                 },
                 "grade": {
                     "type": "string",
+                    "enum": [
+                        "junior",
+                        "middle",
+                        "senior"
+                    ],
                     "example": "junior"
                 },
                 "language": {
@@ -579,7 +668,7 @@ const docTemplate = `{
                 "tariff": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/mementor_back.Tariff"
+                        "$ref": "#/definitions/Tariff"
                     }
                 },
                 "technology": {
@@ -601,11 +690,15 @@ const docTemplate = `{
         },
         "PostMentorResponse": {
             "type": "object",
+            "required": [
+                "mentors",
+                "pages"
+            ],
             "properties": {
                 "mentors": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/mementor_back.Mentor"
+                        "$ref": "#/definitions/Mentor"
                     }
                 },
                 "pages": {
@@ -617,6 +710,7 @@ const docTemplate = `{
         "PutMentorRequest": {
             "type": "object",
             "required": [
+                "email",
                 "experienceSince",
                 "grade",
                 "name",
@@ -651,7 +745,7 @@ const docTemplate = `{
                 "education": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/mementor_back.Education"
+                        "$ref": "#/definitions/Education"
                     }
                 },
                 "email": {
@@ -664,6 +758,11 @@ const docTemplate = `{
                 },
                 "grade": {
                     "type": "string",
+                    "enum": [
+                        "junior",
+                        "middle",
+                        "senior"
+                    ],
                     "example": "junior"
                 },
                 "language": {
@@ -698,7 +797,7 @@ const docTemplate = `{
                 "tariff": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/mementor_back.Tariff"
+                        "$ref": "#/definitions/Tariff"
                     }
                 },
                 "technology": {
@@ -718,79 +817,7 @@ const docTemplate = `{
                 }
             }
         },
-        "mementor_back.Education": {
-            "type": "object",
-            "required": [
-                "department",
-                "place"
-            ],
-            "properties": {
-                "department": {
-                    "type": "string",
-                    "example": "computer science"
-                },
-                "place": {
-                    "type": "string",
-                    "example": "MGU"
-                }
-            }
-        },
-        "mementor_back.Mentor": {
-            "type": "object",
-            "required": [
-                "grade",
-                "name",
-                "programmingLanguage",
-                "surname",
-                "tariff"
-            ],
-            "properties": {
-                "_id": {
-                    "type": "string",
-                    "example": "634afbd6c7cc8190a74feb35"
-                },
-                "grade": {
-                    "type": "string",
-                    "example": "junior"
-                },
-                "language": {
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    },
-                    "example": [
-                        "russian",
-                        " english"
-                    ]
-                },
-                "name": {
-                    "type": "string",
-                    "example": "Test"
-                },
-                "programmingLanguage": {
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    },
-                    "example": [
-                        "python",
-                        "js",
-                        "trash"
-                    ]
-                },
-                "surname": {
-                    "type": "string",
-                    "example": "Subject"
-                },
-                "tariff": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/mementor_back.Tariff"
-                    }
-                }
-            }
-        },
-        "mementor_back.Tariff": {
+        "Tariff": {
             "type": "object",
             "required": [
                 "description",
