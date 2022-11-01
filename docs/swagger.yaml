@@ -3,16 +3,13 @@ definitions:
   BasicResponse:
     properties:
       message:
-        example: some string here
         type: string
     type: object
   Education:
     properties:
       department:
-        example: computer science
         type: string
       place:
-        example: MGU
         type: string
     required:
     - department
@@ -21,73 +18,50 @@ definitions:
   GetMentorResponse:
     properties:
       _id:
-        example: 634afbd6c7cc8190a74feb35
         type: string
       canHelpWith:
-        example:
-        - Your mother
-        - ' Your sister'
         items:
           type: string
         type: array
       classesDone:
-        example: 21
         type: integer
       description:
-        example: Im the best from the best
         type: string
       education:
         items:
           $ref: '#/definitions/Education'
         type: array
       email:
-        example: mrmarkeld@gmail.com
         type: string
       experienceSince:
-        example: 2019
         type: integer
       grade:
         enum:
         - junior
         - middle
         - senior
-        example: junior
         type: string
       language:
-        example:
-        - ru
-        - ' en'
         items:
           type: string
         type: array
       name:
-        example: Test
         type: string
       programmingLanguage:
-        example:
-        - cpp
-        - ' go'
-        - ' scala'
         items:
           type: string
         type: array
       surname:
-        example: Subject
         type: string
       tariff:
         items:
           $ref: '#/definitions/Tariff'
         type: array
       technology:
-        example:
-        - cpp
-        - ' go'
-        - scala
         items:
           type: string
         type: array
       validProfile:
-        example: true
         type: boolean
     required:
     - email
@@ -102,35 +76,24 @@ definitions:
   Mentor:
     properties:
       _id:
-        example: 634afbd6c7cc8190a74feb35
         type: string
       grade:
         enum:
         - junior
         - middle
         - senior
-        example: junior
         type: string
       language:
-        example:
-        - russian
-        - ' english'
         items:
           type: string
         type: array
       name:
-        example: Test
         type: string
       programmingLanguage:
-        example:
-        - python
-        - js
-        - trash
         items:
           type: string
         type: array
       surname:
-        example: Subject
         type: string
       tariff:
         items:
@@ -146,10 +109,8 @@ definitions:
   PostAuthRequest:
     properties:
       email:
-        example: mrmarkeld@gmail.com
         type: string
       password:
-        example: "123456"
         minLength: 6
         type: string
     required:
@@ -182,84 +143,18 @@ definitions:
     type: object
   PostMentorRequest:
     properties:
-      _id:
-        example: 634afbd6c7cc8190a74feb35
-        type: string
-      canHelpWith:
-        example:
-        - Your mother
-        - ' Your sister'
-        items:
-          type: string
-        type: array
-      classesDone:
-        example: 21
-        type: integer
-      description:
-        example: Im the best from the best
-        type: string
-      education:
-        items:
-          $ref: '#/definitions/Education'
-        type: array
-      email:
-        example: mrmarkeld@gmail.com
-        type: string
       experienceSince:
-        example: 2019
         type: integer
       grade:
-        enum:
-        - junior
-        - middle
-        - senior
-        example: junior
-        type: string
-      language:
-        example:
-        - ru
-        - ' en'
         items:
           type: string
         type: array
-      name:
-        example: Test
+      maxPrice:
+        type: integer
+      minPrice:
+        type: integer
+      search:
         type: string
-      programmingLanguage:
-        example:
-        - cpp
-        - ' go'
-        - ' scala'
-        items:
-          type: string
-        type: array
-      surname:
-        example: Subject
-        type: string
-      tariff:
-        items:
-          $ref: '#/definitions/Tariff'
-        type: array
-      technology:
-        example:
-        - cpp
-        - ' go'
-        - scala
-        items:
-          type: string
-        type: array
-      validProfile:
-        example: true
-        type: boolean
-    required:
-    - email
-    - experienceSince
-    - grade
-    - name
-    - programmingLanguage
-    - surname
-    - tariff
-    - technology
     type: object
   PostMentorResponse:
     properties:
@@ -268,7 +163,6 @@ definitions:
           $ref: '#/definitions/Mentor'
         type: array
       pages:
-        example: 1
         type: integer
     required:
     - mentors
@@ -277,73 +171,50 @@ definitions:
   PutMentorRequest:
     properties:
       _id:
-        example: 634afbd6c7cc8190a74feb35
         type: string
       canHelpWith:
-        example:
-        - Your mother
-        - ' Your sister'
         items:
           type: string
         type: array
       classesDone:
-        example: 21
         type: integer
       description:
-        example: Im the best from the best
         type: string
       education:
         items:
           $ref: '#/definitions/Education'
         type: array
       email:
-        example: mrmarkeld@gmail.com
         type: string
       experienceSince:
-        example: 2019
         type: integer
       grade:
         enum:
         - junior
         - middle
         - senior
-        example: junior
         type: string
       language:
-        example:
-        - ru
-        - ' en'
         items:
           type: string
         type: array
       name:
-        example: Test
         type: string
       programmingLanguage:
-        example:
-        - cpp
-        - ' go'
-        - ' scala'
         items:
           type: string
         type: array
       surname:
-        example: Subject
         type: string
       tariff:
         items:
           $ref: '#/definitions/Tariff'
         type: array
       technology:
-        example:
-        - cpp
-        - ' go'
-        - scala
         items:
           type: string
         type: array
       validProfile:
-        example: true
         type: boolean
     required:
     - email
@@ -358,14 +229,11 @@ definitions:
   Tariff:
     properties:
       description:
-        example: Free for you my little friend
         maxLength: 255
         type: string
       name:
-        example: big boby
         type: string
       price:
-        example: 2000
         type: integer
     required:
     - description

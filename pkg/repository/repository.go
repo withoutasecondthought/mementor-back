@@ -11,7 +11,7 @@ type Mentor interface {
 	GetMyMentor(ctx context.Context, id string) (mementor_back.MentorFullInfo, error)
 	PutMentor(ctx context.Context, mentor mementor_back.MentorFullInfo) error
 	DeleteMentor(ctx context.Context, id string) error
-	ListOfMentors(ctx context.Context, page uint, params interface{}) (mementor_back.ListOfMentorsResponse, error)
+	ListOfMentors(ctx context.Context, page uint, params mementor_back.SearchParameters) (mementor_back.ListOfMentorsResponse, error)
 }
 
 type Authorization interface {

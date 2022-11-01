@@ -115,13 +115,13 @@ func (h *Handler) deleteMentor(c echo.Context) error {
 // @Accept      json
 // @Produce     json
 // @Param       page   path     int       true  "number of page"
-// @Param       params body     mementor_back.PostMentorRequest false "params"
+// @Param       params body     mementor_back.SearchParameters false "params"
 // @Success     200    {object} mementor_back.ListOfMentorsResponse
 // @Failure     400  {object} mementor_back.Message "error occurred"
 // @Failure     500  {object} mementor_back.Message "error occurred"
 // @Router /mentor/{page} [post]
 func (h *Handler) listOfMentors(c echo.Context) error {
-	var params interface{}
+	var params mementor_back.SearchParameters
 	ctx := context.Background()
 	p := c.Param("page")
 	if p == "" {

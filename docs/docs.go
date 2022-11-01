@@ -334,8 +334,7 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "message": {
-                    "type": "string",
-                    "example": "some string here"
+                    "type": "string"
                 }
             }
         },
@@ -347,12 +346,10 @@ const docTemplate = `{
             ],
             "properties": {
                 "department": {
-                    "type": "string",
-                    "example": "computer science"
+                    "type": "string"
                 },
                 "place": {
-                    "type": "string",
-                    "example": "MGU"
+                    "type": "string"
                 }
             }
         },
@@ -370,26 +367,19 @@ const docTemplate = `{
             ],
             "properties": {
                 "_id": {
-                    "type": "string",
-                    "example": "634afbd6c7cc8190a74feb35"
+                    "type": "string"
                 },
                 "canHelpWith": {
                     "type": "array",
                     "items": {
                         "type": "string"
-                    },
-                    "example": [
-                        "Your mother",
-                        " Your sister"
-                    ]
+                    }
                 },
                 "classesDone": {
-                    "type": "integer",
-                    "example": 21
+                    "type": "integer"
                 },
                 "description": {
-                    "type": "string",
-                    "example": "Im the best from the best"
+                    "type": "string"
                 },
                 "education": {
                     "type": "array",
@@ -398,12 +388,10 @@ const docTemplate = `{
                     }
                 },
                 "email": {
-                    "type": "string",
-                    "example": "mrmarkeld@gmail.com"
+                    "type": "string"
                 },
                 "experienceSince": {
-                    "type": "integer",
-                    "example": 2019
+                    "type": "integer"
                 },
                 "grade": {
                     "type": "string",
@@ -411,37 +399,25 @@ const docTemplate = `{
                         "junior",
                         "middle",
                         "senior"
-                    ],
-                    "example": "junior"
+                    ]
                 },
                 "language": {
                     "type": "array",
                     "items": {
                         "type": "string"
-                    },
-                    "example": [
-                        "ru",
-                        " en"
-                    ]
+                    }
                 },
                 "name": {
-                    "type": "string",
-                    "example": "Test"
+                    "type": "string"
                 },
                 "programmingLanguage": {
                     "type": "array",
                     "items": {
                         "type": "string"
-                    },
-                    "example": [
-                        "cpp",
-                        " go",
-                        " scala"
-                    ]
+                    }
                 },
                 "surname": {
-                    "type": "string",
-                    "example": "Subject"
+                    "type": "string"
                 },
                 "tariff": {
                     "type": "array",
@@ -453,16 +429,10 @@ const docTemplate = `{
                     "type": "array",
                     "items": {
                         "type": "string"
-                    },
-                    "example": [
-                        "cpp",
-                        " go",
-                        "scala"
-                    ]
+                    }
                 },
                 "validProfile": {
-                    "type": "boolean",
-                    "example": true
+                    "type": "boolean"
                 }
             }
         },
@@ -477,8 +447,7 @@ const docTemplate = `{
             ],
             "properties": {
                 "_id": {
-                    "type": "string",
-                    "example": "634afbd6c7cc8190a74feb35"
+                    "type": "string"
                 },
                 "grade": {
                     "type": "string",
@@ -486,37 +455,25 @@ const docTemplate = `{
                         "junior",
                         "middle",
                         "senior"
-                    ],
-                    "example": "junior"
+                    ]
                 },
                 "language": {
                     "type": "array",
                     "items": {
                         "type": "string"
-                    },
-                    "example": [
-                        "russian",
-                        " english"
-                    ]
+                    }
                 },
                 "name": {
-                    "type": "string",
-                    "example": "Test"
+                    "type": "string"
                 },
                 "programmingLanguage": {
                     "type": "array",
                     "items": {
                         "type": "string"
-                    },
-                    "example": [
-                        "python",
-                        "js",
-                        "trash"
-                    ]
+                    }
                 },
                 "surname": {
-                    "type": "string",
-                    "example": "Subject"
+                    "type": "string"
                 },
                 "tariff": {
                     "type": "array",
@@ -534,13 +491,11 @@ const docTemplate = `{
             ],
             "properties": {
                 "email": {
-                    "type": "string",
-                    "example": "mrmarkeld@gmail.com"
+                    "type": "string"
                 },
                 "password": {
                     "type": "string",
-                    "minLength": 6,
-                    "example": "123456"
+                    "minLength": 6
                 }
             }
         },
@@ -580,111 +535,24 @@ const docTemplate = `{
         },
         "PostMentorRequest": {
             "type": "object",
-            "required": [
-                "email",
-                "experienceSince",
-                "grade",
-                "name",
-                "programmingLanguage",
-                "surname",
-                "tariff",
-                "technology"
-            ],
             "properties": {
-                "_id": {
-                    "type": "string",
-                    "example": "634afbd6c7cc8190a74feb35"
-                },
-                "canHelpWith": {
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    },
-                    "example": [
-                        "Your mother",
-                        " Your sister"
-                    ]
-                },
-                "classesDone": {
-                    "type": "integer",
-                    "example": 21
-                },
-                "description": {
-                    "type": "string",
-                    "example": "Im the best from the best"
-                },
-                "education": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/Education"
-                    }
-                },
-                "email": {
-                    "type": "string",
-                    "example": "mrmarkeld@gmail.com"
-                },
                 "experienceSince": {
-                    "type": "integer",
-                    "example": 2019
+                    "type": "integer"
                 },
                 "grade": {
-                    "type": "string",
-                    "enum": [
-                        "junior",
-                        "middle",
-                        "senior"
-                    ],
-                    "example": "junior"
-                },
-                "language": {
                     "type": "array",
                     "items": {
                         "type": "string"
-                    },
-                    "example": [
-                        "ru",
-                        " en"
-                    ]
-                },
-                "name": {
-                    "type": "string",
-                    "example": "Test"
-                },
-                "programmingLanguage": {
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    },
-                    "example": [
-                        "cpp",
-                        " go",
-                        " scala"
-                    ]
-                },
-                "surname": {
-                    "type": "string",
-                    "example": "Subject"
-                },
-                "tariff": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/Tariff"
                     }
                 },
-                "technology": {
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    },
-                    "example": [
-                        "cpp",
-                        " go",
-                        "scala"
-                    ]
+                "maxPrice": {
+                    "type": "integer"
                 },
-                "validProfile": {
-                    "type": "boolean",
-                    "example": true
+                "minPrice": {
+                    "type": "integer"
+                },
+                "search": {
+                    "type": "string"
                 }
             }
         },
@@ -702,8 +570,7 @@ const docTemplate = `{
                     }
                 },
                 "pages": {
-                    "type": "integer",
-                    "example": 1
+                    "type": "integer"
                 }
             }
         },
@@ -721,26 +588,19 @@ const docTemplate = `{
             ],
             "properties": {
                 "_id": {
-                    "type": "string",
-                    "example": "634afbd6c7cc8190a74feb35"
+                    "type": "string"
                 },
                 "canHelpWith": {
                     "type": "array",
                     "items": {
                         "type": "string"
-                    },
-                    "example": [
-                        "Your mother",
-                        " Your sister"
-                    ]
+                    }
                 },
                 "classesDone": {
-                    "type": "integer",
-                    "example": 21
+                    "type": "integer"
                 },
                 "description": {
-                    "type": "string",
-                    "example": "Im the best from the best"
+                    "type": "string"
                 },
                 "education": {
                     "type": "array",
@@ -749,12 +609,10 @@ const docTemplate = `{
                     }
                 },
                 "email": {
-                    "type": "string",
-                    "example": "mrmarkeld@gmail.com"
+                    "type": "string"
                 },
                 "experienceSince": {
-                    "type": "integer",
-                    "example": 2019
+                    "type": "integer"
                 },
                 "grade": {
                     "type": "string",
@@ -762,37 +620,25 @@ const docTemplate = `{
                         "junior",
                         "middle",
                         "senior"
-                    ],
-                    "example": "junior"
+                    ]
                 },
                 "language": {
                     "type": "array",
                     "items": {
                         "type": "string"
-                    },
-                    "example": [
-                        "ru",
-                        " en"
-                    ]
+                    }
                 },
                 "name": {
-                    "type": "string",
-                    "example": "Test"
+                    "type": "string"
                 },
                 "programmingLanguage": {
                     "type": "array",
                     "items": {
                         "type": "string"
-                    },
-                    "example": [
-                        "cpp",
-                        " go",
-                        " scala"
-                    ]
+                    }
                 },
                 "surname": {
-                    "type": "string",
-                    "example": "Subject"
+                    "type": "string"
                 },
                 "tariff": {
                     "type": "array",
@@ -804,16 +650,10 @@ const docTemplate = `{
                     "type": "array",
                     "items": {
                         "type": "string"
-                    },
-                    "example": [
-                        "cpp",
-                        " go",
-                        "scala"
-                    ]
+                    }
                 },
                 "validProfile": {
-                    "type": "boolean",
-                    "example": true
+                    "type": "boolean"
                 }
             }
         },
@@ -827,16 +667,13 @@ const docTemplate = `{
             "properties": {
                 "description": {
                     "type": "string",
-                    "maxLength": 255,
-                    "example": "Free for you my little friend"
+                    "maxLength": 255
                 },
                 "name": {
-                    "type": "string",
-                    "example": "big boby"
+                    "type": "string"
                 },
                 "price": {
-                    "type": "integer",
-                    "example": 2000
+                    "type": "integer"
                 }
             }
         }

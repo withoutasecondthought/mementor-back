@@ -9,6 +9,7 @@ import (
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	mementor_back "mementor-back"
+	"strings"
 )
 
 type MentorMongo struct {
@@ -54,16 +55,60 @@ func (m *MentorMongo) DeleteMentor(ctx context.Context, id string) error {
 	return err
 }
 
-func (m *MentorMongo) ListOfMentors(ctx context.Context, page uint, params interface{}) (mementor_back.ListOfMentorsResponse, error) {
+func (m *MentorMongo) ListOfMentors(ctx context.Context, page uint, params mementor_back.SearchParameters) (mementor_back.ListOfMentorsResponse, error) {
+
+	var cur *mongo.Cursor
+	var err error
 
 	opts := options.Find()
 	opts.SetLimit(20)
 	opts.SetSkip(int64(page) * 20)
 
+	splitSearch := strings.Split(params.Search, " ")
+
 	var response mementor_back.ListOfMentorsResponse
 
-	cur, err := m.db.Find(ctx, bson.M{"validProfile": true}, opts)
+	baseRequest := bson.M{
+		"grade":           bson.M{"$in": params.Grade},
+		"experienceSince": bson.M{"$lte": params.ExperienceSince},
+		"tariff.0.price":  bson.M{"$gte": params.MinPrice},
+		"tariff.2.price":  bson.M{"$lte": params.MaxPrice},
+		"validProfile":    params.ValidProfile,
+	}
+
+	requestWithSearch := bson.M{
+		"$or": bson.A{
+			bson.M{"description": bson.M{"$regex": primitive.Regex{
+				Pattern: params.Search,
+				Options: "im",
+			}}},
+			bson.M{"name": bson.M{"$regex": primitive.Regex{
+				Pattern: params.Search,
+				Options: "im",
+			}}},
+			bson.M{"surname": bson.M{"$regex": primitive.Regex{
+				Pattern: params.Search,
+				Options: "im",
+			}}},
+			bson.M{"programmingLanguage": bson.M{"$in": splitSearch}},
+			bson.M{"technology": bson.M{"$in": splitSearch}},
+		},
+		"grade":           bson.M{"$in": params.Grade},
+		"experienceSince": bson.M{"$lte": params.ExperienceSince},
+		"tariff.0.price":  bson.M{"$gte": params.MinPrice},
+		"tariff.2.price":  bson.M{"$lte": params.MaxPrice},
+		"validProfile":    params.ValidProfile,
+	}
+
+	if params.Search == "" {
+		cur, err = m.db.Find(ctx, baseRequest, opts)
+	} else {
+		cur, err = m.db.Find(ctx, requestWithSearch, opts)
+	}
 	if err != nil {
+		if err == mongo.ErrNoDocuments {
+			return mementor_back.ListOfMentorsResponse{}, nil
+		}
 		return mementor_back.ListOfMentorsResponse{}, err
 	}
 	err = cur.All(ctx, &response.Mentors)

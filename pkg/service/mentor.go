@@ -2,8 +2,10 @@ package service
 
 import (
 	"context"
+	"errors"
 	mementor_back "mementor-back"
 	"mementor-back/pkg/repository"
+	"time"
 )
 
 type MentorService struct {
@@ -20,6 +22,9 @@ func (m *MentorService) GetMyMentor(ctx context.Context, id string) (mementor_ba
 
 func (m *MentorService) PutMentor(ctx context.Context, mentor mementor_back.MentorFullInfo) error {
 	mentor.ValidProfile = true
+	if mentor.Tariff[0].Price > mentor.Tariff[1].Price || mentor.Tariff[1].Price > mentor.Tariff[2].Price {
+		return errors.New("wrong tariffs order")
+	}
 	return m.repos.PutMentor(ctx, mentor)
 }
 
@@ -27,7 +32,19 @@ func (m *MentorService) DeleteMentor(ctx context.Context, id string) error {
 	return m.repos.DeleteMentor(ctx, id)
 }
 
-func (m *MentorService) ListOfMentors(ctx context.Context, page uint, params interface{}) (mementor_back.ListOfMentorsResponse, error) {
+func (m *MentorService) ListOfMentors(ctx context.Context, page uint, params mementor_back.SearchParameters) (mementor_back.ListOfMentorsResponse, error) {
+	params.ValidProfile = true
+
+	if params.MaxPrice == 0 {
+		params.MaxPrice = 100000000
+	}
+	if len(params.Grade) == 0 {
+		params.Grade = []string{"junior", "middle", "senior"}
+	}
+	if params.ExperienceSince == 0 {
+		params.ExperienceSince = time.Now().Year()
+	}
+
 	return m.repos.ListOfMentors(ctx, page, params)
 }
 
