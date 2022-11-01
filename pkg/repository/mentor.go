@@ -68,48 +68,52 @@ func (m *MentorMongo) ListOfMentors(ctx context.Context, page uint, params memen
 
 	var response mementor_back.ListOfMentorsResponse
 
-	baseRequest := bson.M{
-		"grade":           bson.M{"$in": params.Grade},
-		"experienceSince": bson.M{"$lte": params.ExperienceSince},
-		"tariff.0.price":  bson.M{"$gte": params.MinPrice},
-		"tariff.2.price":  bson.M{"$lte": params.MaxPrice},
-		"validProfile":    params.ValidProfile,
+	baseRequest := bson.D{
+		{"grade", bson.M{"$in": params.Grade}},
+		{"experienceSince", bson.M{"$lte": params.ExperienceSince}},
+		{"tariff.0.price", bson.D{{"$gte", params.MinPrice}, {"$lte", params.MaxPrice}}},
+		{"validProfile", params.ValidProfile},
 	}
 
-	requestWithSearch := bson.M{
-		"$or": bson.A{
-			bson.M{"description": bson.M{"$regex": primitive.Regex{
+	requestWithSearch := bson.D{
+		{"$or", bson.A{
+			bson.D{{"description", bson.D{{"$regex", primitive.Regex{
 				Pattern: params.Search,
 				Options: "im",
-			}}},
-			bson.M{"name": bson.M{"$regex": primitive.Regex{
+			}}}}},
+			bson.D{{"name", bson.D{{"$regex", primitive.Regex{
 				Pattern: params.Search,
 				Options: "im",
-			}}},
-			bson.M{"surname": bson.M{"$regex": primitive.Regex{
+			}}}}},
+			bson.D{{"surname", bson.D{{"$regex", primitive.Regex{
 				Pattern: params.Search,
 				Options: "im",
-			}}},
-			bson.M{"programmingLanguage": bson.M{"$in": splitSearch}},
-			bson.M{"technology": bson.M{"$in": splitSearch}},
-		},
-		"grade":           bson.M{"$in": params.Grade},
-		"experienceSince": bson.M{"$lte": params.ExperienceSince},
-		"tariff.0.price":  bson.M{"$gte": params.MinPrice},
-		"tariff.2.price":  bson.M{"$lte": params.MaxPrice},
-		"validProfile":    params.ValidProfile,
+			}}}}},
+			bson.D{{"programmingLanguage", bson.D{{"$in", splitSearch}}}},
+			bson.D{{"technology", bson.D{{"$in", splitSearch}}}},
+		}},
+		{"grade", bson.M{"$in": params.Grade}},
+		{"experienceSince", bson.M{"$lte": params.ExperienceSince}},
+		{"tariff.0.price", bson.D{{"$gte", params.MinPrice}, {"$lte", params.MaxPrice}}},
+		{"validProfile", params.ValidProfile},
 	}
 
 	if params.Search == "" {
 		cur, err = m.db.Find(ctx, baseRequest, opts)
+		if err != nil {
+			if err == mongo.ErrNoDocuments {
+				return mementor_back.ListOfMentorsResponse{}, nil
+			}
+			return mementor_back.ListOfMentorsResponse{}, err
+		}
 	} else {
 		cur, err = m.db.Find(ctx, requestWithSearch, opts)
-	}
-	if err != nil {
-		if err == mongo.ErrNoDocuments {
-			return mementor_back.ListOfMentorsResponse{}, nil
+		if err != nil {
+			if err == mongo.ErrNoDocuments {
+				return mementor_back.ListOfMentorsResponse{}, nil
+			}
+			return mementor_back.ListOfMentorsResponse{}, err
 		}
-		return mementor_back.ListOfMentorsResponse{}, err
 	}
 	err = cur.All(ctx, &response.Mentors)
 	if err != nil {

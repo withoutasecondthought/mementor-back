@@ -38,13 +38,16 @@ func (m *MentorService) ListOfMentors(ctx context.Context, page uint, params mem
 	if params.MaxPrice == 0 {
 		params.MaxPrice = 100000000
 	}
+
+	if params.MaxPrice < params.MinPrice {
+		return mementor_back.ListOfMentorsResponse{}, errors.New("min price can't be greater than max")
+	}
 	if len(params.Grade) == 0 {
 		params.Grade = []string{"junior", "middle", "senior"}
 	}
 	if params.ExperienceSince == 0 {
 		params.ExperienceSince = time.Now().Year()
 	}
-
 	return m.repos.ListOfMentors(ctx, page, params)
 }
 
