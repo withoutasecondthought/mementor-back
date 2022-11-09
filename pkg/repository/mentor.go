@@ -64,7 +64,18 @@ func (m *MentorMongo) ListOfMentors(ctx context.Context, page uint, params memen
 	opts.SetLimit(20)
 	opts.SetSkip(int64(page) * 20)
 
-	splitSearch := strings.Split(params.Search, " ")
+	splitSearch := func() []primitive.Regex {
+		var returnArray []primitive.Regex
+		s := strings.Split(params.Search, " ")
+		for _, str := range s {
+			returnArray = append(returnArray, primitive.Regex{
+				Pattern: str,
+				Options: "mi",
+			})
+		}
+
+		return returnArray
+	}()
 
 	var response mementor_back.ListOfMentorsResponse
 
