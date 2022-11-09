@@ -40,7 +40,7 @@ func (m *MentorService) ListOfMentors(ctx context.Context, page uint, params mem
 	}
 
 	if params.MaxPrice < params.MinPrice {
-		return mementor_back.ListOfMentorsResponse{}, errors.New("min price can't be greater than max")
+		return mementor_back.ListOfMentorsResponse{Mentors: []mementor_back.Mentor{}}, errors.New("min price can't be greater than max")
 	}
 	if len(params.Grade) == 0 {
 		params.Grade = []string{"junior", "middle", "senior"}

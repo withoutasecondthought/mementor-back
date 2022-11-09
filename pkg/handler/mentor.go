@@ -154,7 +154,12 @@ func (h *Handler) listOfMentors(c echo.Context) error {
 		return err
 	}
 
+	if mentors.Mentors == nil {
+		mentors.Mentors = []mementor_back.Mentor{}
+	}
+
 	return c.JSON(http.StatusOK, mentors)
+
 }
 
 // @Summary     Show your Page

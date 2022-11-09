@@ -102,27 +102,27 @@ func (m *MentorMongo) ListOfMentors(ctx context.Context, page uint, params memen
 		cur, err = m.db.Find(ctx, baseRequest, opts)
 		if err != nil {
 			if err == mongo.ErrNoDocuments {
-				return mementor_back.ListOfMentorsResponse{}, nil
+				return mementor_back.ListOfMentorsResponse{Mentors: []mementor_back.Mentor{}}, nil
 			}
-			return mementor_back.ListOfMentorsResponse{}, err
+			return mementor_back.ListOfMentorsResponse{Mentors: []mementor_back.Mentor{}}, err
 		}
 	} else {
 		cur, err = m.db.Find(ctx, requestWithSearch, opts)
 		if err != nil {
 			if err == mongo.ErrNoDocuments {
-				return mementor_back.ListOfMentorsResponse{}, nil
+				return mementor_back.ListOfMentorsResponse{Mentors: []mementor_back.Mentor{}}, nil
 			}
-			return mementor_back.ListOfMentorsResponse{}, err
+			return mementor_back.ListOfMentorsResponse{Mentors: []mementor_back.Mentor{}}, err
 		}
 	}
 	err = cur.All(ctx, &response.Mentors)
 	if err != nil {
-		return mementor_back.ListOfMentorsResponse{}, err
+		return mementor_back.ListOfMentorsResponse{Mentors: []mementor_back.Mentor{}}, err
 	}
 
 	number, err := m.db.CountDocuments(ctx, bson.M{"validProfile": true})
 	if err != nil {
-		return mementor_back.ListOfMentorsResponse{}, err
+		return mementor_back.ListOfMentorsResponse{Mentors: []mementor_back.Mentor{}}, err
 	}
 	response.Pages = int(number / 20)
 	return response, nil
