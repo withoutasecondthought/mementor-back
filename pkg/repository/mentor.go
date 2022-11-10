@@ -140,7 +140,7 @@ func (m *MentorMongo) ListOfMentors(ctx context.Context, page uint, params memen
 		return mementor_back.ListOfMentorsResponse{Mentors: []mementor_back.Mentor{}}, err
 	}
 
-	response.Pages = number
+	response.Pages = number / 20
 	return response, nil
 }
 
