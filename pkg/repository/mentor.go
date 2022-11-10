@@ -59,6 +59,7 @@ func (m *MentorMongo) ListOfMentors(ctx context.Context, page uint, params memen
 
 	var cur *mongo.Cursor
 	var err error
+	var number int64
 
 	opts := options.Find()
 	opts.SetLimit(20)
@@ -117,6 +118,10 @@ func (m *MentorMongo) ListOfMentors(ctx context.Context, page uint, params memen
 			}
 			return mementor_back.ListOfMentorsResponse{Mentors: []mementor_back.Mentor{}}, err
 		}
+		number, err = m.db.CountDocuments(ctx, baseRequest)
+		if err != nil {
+			return mementor_back.ListOfMentorsResponse{Mentors: []mementor_back.Mentor{}}, err
+		}
 	} else {
 		cur, err = m.db.Find(ctx, requestWithSearch, opts)
 		if err != nil {
@@ -125,17 +130,17 @@ func (m *MentorMongo) ListOfMentors(ctx context.Context, page uint, params memen
 			}
 			return mementor_back.ListOfMentorsResponse{Mentors: []mementor_back.Mentor{}}, err
 		}
+		number, err = m.db.CountDocuments(ctx, requestWithSearch)
+		if err != nil {
+			return mementor_back.ListOfMentorsResponse{Mentors: []mementor_back.Mentor{}}, err
+		}
 	}
 	err = cur.All(ctx, &response.Mentors)
 	if err != nil {
 		return mementor_back.ListOfMentorsResponse{Mentors: []mementor_back.Mentor{}}, err
 	}
 
-	number, err := m.db.CountDocuments(ctx, bson.M{"validProfile": true})
-	if err != nil {
-		return mementor_back.ListOfMentorsResponse{Mentors: []mementor_back.Mentor{}}, err
-	}
-	response.Pages = int(number / 20)
+	response.Pages = number
 	return response, nil
 }
 

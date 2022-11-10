@@ -56,7 +56,7 @@ type Tariff struct {
 } //@name Tariff
 
 type ListOfMentorsResponse struct {
-	Pages   int      `json:"pages" bson:"pages" validate:"required"`
+	Pages   int64    `json:"pages" bson:"pages" validate:"required"`
 	Mentors []Mentor `json:"mentors" validate:"required" bson:"mentors"`
 } //@name PostMentorResponse
 
