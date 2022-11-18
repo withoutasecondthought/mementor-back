@@ -48,7 +48,19 @@ func (m *MentorService) ListOfMentors(ctx context.Context, page uint, params mem
 	if params.ExperienceSince == 0 {
 		params.ExperienceSince = time.Now().Year()
 	}
-	return m.repos.ListOfMentors(ctx, page, params)
+
+	resp, err := m.repos.ListOfMentors(ctx, page, params)
+
+	if err == nil && resp.Mentors != nil {
+		resp.Pages += 1
+	}
+
+	if resp.Mentors == nil {
+		resp.Mentors = []mementor_back.Mentor{}
+	}
+
+	return resp, err
+
 }
 
 func NewMentorService(repo repository.Mentor) *MentorService {
