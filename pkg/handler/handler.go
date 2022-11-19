@@ -56,6 +56,7 @@ func (h *Handler) InitRoutes() *echo.Echo {
 
 		authmentor := mentor.Group("", h.parseJWT)
 		{
+			authmentor.POST("/image", h.PostImage)
 			authmentor.GET("", h.getYourPage)
 			authmentor.PUT("", h.putMentor)
 			authmentor.DELETE("", h.deleteMentor)

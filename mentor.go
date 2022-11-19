@@ -75,3 +75,8 @@ type SearchParameters struct {
 	MinPrice        int      `json:"minPrice"`
 	MaxPrice        int      `json:"maxPrice"`
 } //@name PostMentorRequest
+
+type PostImage struct {
+	Id     *primitive.ObjectID `json:"-" bson:"_id"`
+	Base64 string              `json:"base64"`
+} //@name PostImageRequest
