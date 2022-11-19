@@ -6,3 +6,5 @@ run:
 build:
 	go mod download && go mod tidy && go mod verify && go build ./cmd/main.go
 
+swagger:
+	swag init -g cmd/main.go

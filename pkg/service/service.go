@@ -23,16 +23,22 @@ type Book interface {
 	NewBooking(ctx context.Context, booking mementor_back.Booking) error
 }
 
+type Image interface {
+	NewImage(ctx context.Context, image mementor_back.PostImage) (mementor_back.Image, error)
+}
+
 type Service struct {
 	Mentor
 	Authorization
 	Book
+	Image
 }
 
-func NewService(repos *repository.Repository) *Service {
+func NewService(repo *repository.Repository) *Service {
 	return &Service{
-		Mentor:        NewMentorService(repos.Mentor),
-		Authorization: NewAuthService(repos.Authorization),
-		Book:          NewBooking(repos.Book),
+		Mentor:        NewMentorService(repo.Mentor),
+		Authorization: NewAuthService(repo.Authorization),
+		Book:          NewBooking(repo.Book),
+		Image:         NewImageService(repo.Image),
 	}
 }

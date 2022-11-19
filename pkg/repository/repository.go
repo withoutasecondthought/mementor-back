@@ -23,10 +23,15 @@ type Book interface {
 	NewBooking(ctx context.Context, booking mementor_back.Booking) error
 }
 
+type Image interface {
+	NewImage(ctx context.Context, image mementor_back.PostImage) error
+}
+
 type Repository struct {
 	Mentor
 	Authorization
 	Book
+	Image
 }
 
 func NewRepository(db *mongo.Database) *Repository {
@@ -34,6 +39,7 @@ func NewRepository(db *mongo.Database) *Repository {
 		Mentor:        NewMentor(db),
 		Authorization: NewAuthMongo(db),
 		Book:          NewBookMongo(db),
+		Image:         NewImageMongo(db),
 	}
 
 }

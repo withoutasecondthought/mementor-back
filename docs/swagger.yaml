@@ -19,6 +19,10 @@ definitions:
     properties:
       _id:
         type: string
+      144x144:
+        type: string
+      512x512:
+        type: string
       canHelpWith:
         items:
           type: string
@@ -73,9 +77,20 @@ definitions:
     - tariff
     - technology
     type: object
+  Image:
+    properties:
+      144x144:
+        type: string
+      512x512:
+        type: string
+    type: object
   Mentor:
     properties:
       _id:
+        type: string
+      144x144:
+        type: string
+      512x512:
         type: string
       grade:
         enum:
@@ -141,6 +156,11 @@ definitions:
     - mentorId
     - tariffIndex
     type: object
+  PostImageRequest:
+    properties:
+      base64:
+        type: string
+    type: object
   PostMentorRequest:
     properties:
       experienceSince:
@@ -171,6 +191,10 @@ definitions:
   PutMentorRequest:
     properties:
       _id:
+        type: string
+      144x144:
+        type: string
+      512x512:
         type: string
       canHelpWith:
         items:
@@ -396,6 +420,40 @@ paths:
           schema:
             $ref: '#/definitions/BasicResponse'
       summary: return List of Mentors
+      tags:
+      - mentor
+  /mentor/image:
+    post:
+      consumes:
+      - application/json
+      description: Upload your best photo
+      parameters:
+      - description: base64
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/PostImageRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ok
+          schema:
+            $ref: '#/definitions/Image'
+        "400":
+          description: error occurred
+          schema:
+            $ref: '#/definitions/BasicResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/BasicResponse'
+        "500":
+          description: error occurred
+          schema:
+            $ref: '#/definitions/BasicResponse'
+      summary: Upload Image
       tags:
       - mentor
   /sign-in:

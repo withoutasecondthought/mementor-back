@@ -159,6 +159,58 @@ const docTemplate = `{
                 }
             }
         },
+        "/mentor/image": {
+            "post": {
+                "description": "Upload your best photo",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "mentor"
+                ],
+                "summary": "Upload Image",
+                "parameters": [
+                    {
+                        "description": "base64",
+                        "name": "user",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/PostImageRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "ok",
+                        "schema": {
+                            "$ref": "#/definitions/Image"
+                        }
+                    },
+                    "400": {
+                        "description": "error occurred",
+                        "schema": {
+                            "$ref": "#/definitions/BasicResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/BasicResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "error occurred",
+                        "schema": {
+                            "$ref": "#/definitions/BasicResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/mentor/{id}": {
             "get": {
                 "description": "Give you mentor without personal fields",
@@ -366,6 +418,12 @@ const docTemplate = `{
                 "technology"
             ],
             "properties": {
+                "144x144": {
+                    "type": "string"
+                },
+                "512x512": {
+                    "type": "string"
+                },
                 "_id": {
                     "type": "string"
                 },
@@ -436,6 +494,17 @@ const docTemplate = `{
                 }
             }
         },
+        "Image": {
+            "type": "object",
+            "properties": {
+                "144x144": {
+                    "type": "string"
+                },
+                "512x512": {
+                    "type": "string"
+                }
+            }
+        },
         "Mentor": {
             "type": "object",
             "required": [
@@ -446,6 +515,12 @@ const docTemplate = `{
                 "tariff"
             ],
             "properties": {
+                "144x144": {
+                    "type": "string"
+                },
+                "512x512": {
+                    "type": "string"
+                },
                 "_id": {
                     "type": "string"
                 },
@@ -533,6 +608,14 @@ const docTemplate = `{
                 }
             }
         },
+        "PostImageRequest": {
+            "type": "object",
+            "properties": {
+                "base64": {
+                    "type": "string"
+                }
+            }
+        },
         "PostMentorRequest": {
             "type": "object",
             "properties": {
@@ -587,6 +670,12 @@ const docTemplate = `{
                 "technology"
             ],
             "properties": {
+                "144x144": {
+                    "type": "string"
+                },
+                "512x512": {
+                    "type": "string"
+                },
                 "_id": {
                     "type": "string"
                 },

@@ -20,6 +20,7 @@ type Mentor struct {
 	Grade               string              `json:"grade" bson:"grade" validate:"required,oneof=junior middle senior" `
 	Language            []string            `json:"language" bson:"language" `
 	Tariff              []Tariff            `json:"tariff" bson:"tariff"  validate:"required,len=3"`
+	Image
 } //@name Mentor
 
 type MentorFullInfo struct {
@@ -38,6 +39,7 @@ type MentorFullInfo struct {
 	Technology          []string            `json:"technology" bson:"technology"  validate:"required" `
 	CanHelpWith         []string            `json:"canHelpWith" bson:"canHelpWith" `
 	ValidProfile        bool                `json:"validProfile" bson:"validProfile"`
+	Image
 } //@name GetMentorResponse
 
 type PutMentorRequest struct {
@@ -79,4 +81,10 @@ type SearchParameters struct {
 type PostImage struct {
 	Id     *primitive.ObjectID `json:"-" bson:"_id"`
 	Base64 string              `json:"base64"`
+	Image  Image               `json:"-" bson:"image"`
 } //@name PostImageRequest
+
+type Image struct {
+	BigImage   string `json:"512x512"`
+	SmallImage string `json:"144x144"`
+} //@name Image
