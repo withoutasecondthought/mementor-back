@@ -20,7 +20,7 @@ type Mentor struct {
 	Grade               string              `json:"grade" bson:"grade" validate:"required,oneof=junior middle senior" `
 	Language            []string            `json:"language" bson:"language" `
 	Tariff              []Tariff            `json:"tariff" bson:"tariff"  validate:"required,len=3"`
-	Image
+	Image               *Image              `bson:"image" json:"image,omitempty"`
 } //@name Mentor
 
 type MentorFullInfo struct {
@@ -39,7 +39,7 @@ type MentorFullInfo struct {
 	Technology          []string            `json:"technology" bson:"technology"  validate:"required" `
 	CanHelpWith         []string            `json:"canHelpWith" bson:"canHelpWith" `
 	ValidProfile        bool                `json:"validProfile" bson:"validProfile"`
-	Image
+	Image               *Image              `json:"image" bson:"image,omitempty"`
 } //@name GetMentorResponse
 
 type PutMentorRequest struct {
