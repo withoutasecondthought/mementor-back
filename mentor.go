@@ -66,7 +66,7 @@ type Booking struct {
 	CustomerName     string `json:"customerName"  bson:"customerName" validate:"required"`
 	CustomerTelegram string `json:"customerTelegram" bson:"customerTelegram" validate:"required"`
 	MentorId         string `json:"mentorId" bson:"mentorId" validate:"required"`
-	TariffIndex      *int   `json:"tariffIndex" bson:"tariffIndex" validate:"required,min=0,max=2"`
+	TariffIndex      int8   `json:"tariffIndex" bson:"tariffIndex" validate:"min=0,max=2"`
 } //@name PostBookingRequest
 
 type SearchParameters struct {

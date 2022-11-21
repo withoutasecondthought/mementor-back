@@ -27,8 +27,8 @@ func sendBookEmail(booking mementor_back.Booking) error {
 	pass := viper.GetString("gmail.password")
 	to := viper.GetString("gmail.to")
 
-	sub := fmt.Sprintf("New Booking Request from %s\n", booking.CustomerName)
-	msg := fmt.Sprintf("Name %s,\n\n Telegram: %s,\n\n MentorId: %s,\n\n TarriffIndex: %d", booking.CustomerName, booking.CustomerTelegram, booking.MentorId, booking.TariffIndex)
+	sub := fmt.Sprintf("Subject: New Booking Request from %s\r\n\r\n", booking.CustomerName)
+	msg := fmt.Sprintf("Name: %s\n\n Telegram: %s\n\n MentorId: %s \n\n MentorLink: https://ilyaprojects.com/test-drive/mementor/mentor/%s\n\n TarriffIndex: %d", booking.CustomerName, booking.CustomerTelegram, booking.MentorId, booking.MentorId, booking.TariffIndex)
 
 	auth := smtp.PlainAuth("", from, pass, "smtp.gmail.com")
 

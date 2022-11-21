@@ -13,7 +13,6 @@ type BookMongo struct {
 
 func (b *BookMongo) NewBooking(ctx context.Context, booking mementor_back.Booking) error {
 	_, err := b.db.InsertOne(ctx, booking)
-
 	return err
 }
 
