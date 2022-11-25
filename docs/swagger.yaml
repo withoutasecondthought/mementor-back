@@ -19,10 +19,6 @@ definitions:
     properties:
       _id:
         type: string
-      144x144:
-        type: string
-      512x512:
-        type: string
       canHelpWith:
         items:
           type: string
@@ -45,6 +41,8 @@ definitions:
         - middle
         - senior
         type: string
+      image:
+        $ref: '#/definitions/Image'
       language:
         items:
           type: string
@@ -88,16 +86,14 @@ definitions:
     properties:
       _id:
         type: string
-      144x144:
-        type: string
-      512x512:
-        type: string
       grade:
         enum:
         - junior
         - middle
         - senior
         type: string
+      image:
+        $ref: '#/definitions/Image'
       language:
         items:
           type: string
@@ -154,7 +150,6 @@ definitions:
     - customerName
     - customerTelegram
     - mentorId
-    - tariffIndex
     type: object
   PostImageRequest:
     properties:
@@ -192,10 +187,6 @@ definitions:
     properties:
       _id:
         type: string
-      144x144:
-        type: string
-      512x512:
-        type: string
       canHelpWith:
         items:
           type: string
@@ -218,6 +209,8 @@ definitions:
         - middle
         - senior
         type: string
+      image:
+        $ref: '#/definitions/Image'
       language:
         items:
           type: string

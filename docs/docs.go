@@ -418,12 +418,6 @@ const docTemplate = `{
                 "technology"
             ],
             "properties": {
-                "144x144": {
-                    "type": "string"
-                },
-                "512x512": {
-                    "type": "string"
-                },
                 "_id": {
                     "type": "string"
                 },
@@ -458,6 +452,9 @@ const docTemplate = `{
                         "middle",
                         "senior"
                     ]
+                },
+                "image": {
+                    "$ref": "#/definitions/Image"
                 },
                 "language": {
                     "type": "array",
@@ -515,12 +512,6 @@ const docTemplate = `{
                 "tariff"
             ],
             "properties": {
-                "144x144": {
-                    "type": "string"
-                },
-                "512x512": {
-                    "type": "string"
-                },
                 "_id": {
                     "type": "string"
                 },
@@ -531,6 +522,9 @@ const docTemplate = `{
                         "middle",
                         "senior"
                     ]
+                },
+                "image": {
+                    "$ref": "#/definitions/Image"
                 },
                 "language": {
                     "type": "array",
@@ -588,8 +582,7 @@ const docTemplate = `{
             "required": [
                 "customerName",
                 "customerTelegram",
-                "mentorId",
-                "tariffIndex"
+                "mentorId"
             ],
             "properties": {
                 "customerName": {
@@ -670,12 +663,6 @@ const docTemplate = `{
                 "technology"
             ],
             "properties": {
-                "144x144": {
-                    "type": "string"
-                },
-                "512x512": {
-                    "type": "string"
-                },
                 "_id": {
                     "type": "string"
                 },
@@ -710,6 +697,9 @@ const docTemplate = `{
                         "middle",
                         "senior"
                     ]
+                },
+                "image": {
+                    "$ref": "#/definitions/Image"
                 },
                 "language": {
                     "type": "array",

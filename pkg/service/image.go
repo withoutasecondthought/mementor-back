@@ -3,6 +3,7 @@ package service
 import (
 	"context"
 	"github.com/cloudinary/cloudinary-go/v2"
+	"github.com/cloudinary/cloudinary-go/v2/api"
 	"github.com/cloudinary/cloudinary-go/v2/api/uploader"
 	"github.com/google/uuid"
 	"github.com/spf13/viper"
@@ -23,29 +24,30 @@ func (i *ImageService) NewImage(ctx context.Context, image mementor_back.PostIma
 	}
 	cld.Config.URL.Secure = true
 
-	ImagePublicId := uuid.New().String()
+	imagePublicId := uuid.New().String()
 
-	BigImage, err := cld.Upload.Upload(ctx, image.Base64, uploader.UploadParams{
-		PublicID:       ImagePublicId,
+	bigImage, err := cld.Upload.Upload(ctx, image.Base64, uploader.UploadParams{
+		AllowedFormats: api.CldAPIArray{"jpeg", "jpg", "png"},
+		PublicID:       imagePublicId,
 		Transformation: "h_512,w_512,b_white,c_fill",
 	})
 	if err != nil {
 		return mementor_back.Image{}, err
 	}
 
-	resp.BigImage = BigImage.SecureURL
+	imagePublicId = uuid.New().String()
 
-	smallImage, err := cld.Image(ImagePublicId)
+	smallImage, err := cld.Upload.Upload(ctx, image.Base64, uploader.UploadParams{
+		AllowedFormats: api.CldAPIArray{"jpeg", "jpg", "png"},
+		PublicID:       imagePublicId,
+		Transformation: "h_144,w_144,b_white,c_fill",
+	})
 	if err != nil {
 		return mementor_back.Image{}, err
 	}
 
-	smallImage.Transformation = "h_256,w_256"
-
-	resp.SmallImage, err = smallImage.String()
-	if err != nil {
-		return mementor_back.Image{}, err
-	}
+	resp.BigImage = bigImage.SecureURL
+	resp.SmallImage = smallImage.SecureURL
 
 	image.Image = resp
 	err = i.repo.NewImage(ctx, image)

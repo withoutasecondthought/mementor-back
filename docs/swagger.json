@@ -411,12 +411,6 @@
                 "technology"
             ],
             "properties": {
-                "144x144": {
-                    "type": "string"
-                },
-                "512x512": {
-                    "type": "string"
-                },
                 "_id": {
                     "type": "string"
                 },
@@ -451,6 +445,9 @@
                         "middle",
                         "senior"
                     ]
+                },
+                "image": {
+                    "$ref": "#/definitions/Image"
                 },
                 "language": {
                     "type": "array",
@@ -508,12 +505,6 @@
                 "tariff"
             ],
             "properties": {
-                "144x144": {
-                    "type": "string"
-                },
-                "512x512": {
-                    "type": "string"
-                },
                 "_id": {
                     "type": "string"
                 },
@@ -524,6 +515,9 @@
                         "middle",
                         "senior"
                     ]
+                },
+                "image": {
+                    "$ref": "#/definitions/Image"
                 },
                 "language": {
                     "type": "array",
@@ -581,8 +575,7 @@
             "required": [
                 "customerName",
                 "customerTelegram",
-                "mentorId",
-                "tariffIndex"
+                "mentorId"
             ],
             "properties": {
                 "customerName": {
@@ -663,12 +656,6 @@
                 "technology"
             ],
             "properties": {
-                "144x144": {
-                    "type": "string"
-                },
-                "512x512": {
-                    "type": "string"
-                },
                 "_id": {
                     "type": "string"
                 },
@@ -703,6 +690,9 @@
                         "middle",
                         "senior"
                     ]
+                },
+                "image": {
+                    "$ref": "#/definitions/Image"
                 },
                 "language": {
                     "type": "array",
