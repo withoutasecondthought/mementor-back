@@ -42,6 +42,7 @@ func (m *MentorMongo) GetMentor(ctx context.Context, id string) (mementor_back.M
 }
 
 func (m *MentorMongo) PutMentor(ctx context.Context, mentor mementor_back.MentorFullInfo) error {
+	mentor.Image = nil
 	_, err := m.db.UpdateOne(ctx, primitive.M{"_id": mentor.Id}, bson.M{"$set": mentor})
 	return err
 }
