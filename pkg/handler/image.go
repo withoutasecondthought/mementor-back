@@ -1,7 +1,6 @@
 package handler
 
 import (
-	"context"
 	"github.com/labstack/echo/v4"
 	"github.com/sirupsen/logrus"
 	mementor_back "mementor-back"
@@ -22,7 +21,7 @@ import (
 // @Router      /mentor/image [post]
 func (h *Handler) PostImage(c echo.Context) error {
 	var req mementor_back.PostImage
-	req.Id = &h.UserId
+	req.ID = &h.UserID
 
 	err := c.Bind(&req)
 	if err != nil {
@@ -33,7 +32,7 @@ func (h *Handler) PostImage(c echo.Context) error {
 		return err
 	}
 
-	image, err := h.Services.Image.NewImage(context.Background(), req)
+	image, err := h.Services.Image.NewImage(c.Request().Context(), req)
 	if err != nil {
 		sentError := c.JSON(http.StatusInternalServerError, mementor_back.Message{Message: err.Error()})
 		if sentError != nil {

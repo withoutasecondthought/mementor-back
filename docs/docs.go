@@ -238,7 +238,7 @@ const docTemplate = `{
                         }
                     },
                     "404": {
-                        "description": "error occured",
+                        "description": "error occurred",
                         "schema": {
                             "$ref": "#/definitions/BasicResponse"
                         }

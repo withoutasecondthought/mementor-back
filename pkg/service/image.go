@@ -24,22 +24,22 @@ func (i *ImageService) NewImage(ctx context.Context, image mementor_back.PostIma
 	}
 	cld.Config.URL.Secure = true
 
-	imagePublicId := uuid.New().String()
+	imagePublicID := uuid.New().String()
 
 	bigImage, err := cld.Upload.Upload(ctx, image.Base64, uploader.UploadParams{
 		AllowedFormats: api.CldAPIArray{"jpeg", "jpg", "png"},
-		PublicID:       imagePublicId,
+		PublicID:       imagePublicID,
 		Transformation: "h_512,w_512,b_white,c_fill",
 	})
 	if err != nil {
 		return mementor_back.Image{}, err
 	}
 
-	imagePublicId = uuid.New().String()
+	imagePublicID = uuid.New().String()
 
 	smallImage, err := cld.Upload.Upload(ctx, image.Base64, uploader.UploadParams{
 		AllowedFormats: api.CldAPIArray{"jpeg", "jpg", "png"},
-		PublicID:       imagePublicId,
+		PublicID:       imagePublicID,
 		Transformation: "h_144,w_144,b_white,c_fill",
 	})
 	if err != nil {

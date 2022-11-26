@@ -18,22 +18,22 @@ type MentorMongo struct {
 
 func (m *MentorMongo) GetMyMentor(ctx context.Context, id string) (mementor_back.MentorFullInfo, error) {
 	var mentor mementor_back.MentorFullInfo
-	hexedId, err := primitive.ObjectIDFromHex(id)
+	hexedID, err := primitive.ObjectIDFromHex(id)
 	if err != nil {
 		return mementor_back.MentorFullInfo{}, err
 	}
-	_ = m.db.FindOne(ctx, primitive.M{"_id": hexedId}).Decode(&mentor)
+	_ = m.db.FindOne(ctx, primitive.M{"_id": hexedID}).Decode(&mentor)
 
 	return mentor, nil
 }
 
 func (m *MentorMongo) GetMentor(ctx context.Context, id string) (mementor_back.MentorFullInfo, error) {
 	var mentor mementor_back.MentorFullInfo
-	hexedId, err := primitive.ObjectIDFromHex(id)
+	hexedID, err := primitive.ObjectIDFromHex(id)
 	if err != nil {
 		return mementor_back.MentorFullInfo{}, err
 	}
-	_ = m.db.FindOne(ctx, primitive.M{"_id": hexedId, "validProfile": true}).Decode(&mentor)
+	_ = m.db.FindOne(ctx, primitive.M{"_id": hexedID, "validProfile": true}).Decode(&mentor)
 	if mentor.Email == "" {
 		return mementor_back.MentorFullInfo{}, errors.New("no such user")
 	}
@@ -43,16 +43,16 @@ func (m *MentorMongo) GetMentor(ctx context.Context, id string) (mementor_back.M
 
 func (m *MentorMongo) PutMentor(ctx context.Context, mentor mementor_back.MentorFullInfo) error {
 	mentor.Image = nil
-	_, err := m.db.UpdateOne(ctx, primitive.M{"_id": mentor.Id}, bson.M{"$set": mentor})
+	_, err := m.db.UpdateOne(ctx, primitive.M{"_id": mentor.ID}, bson.M{"$set": mentor})
 	return err
 }
 
 func (m *MentorMongo) DeleteMentor(ctx context.Context, id string) error {
-	hexedId, err := primitive.ObjectIDFromHex(id)
+	hexedID, err := primitive.ObjectIDFromHex(id)
 	if err != nil {
 		return err
 	}
-	_, err = m.db.DeleteOne(ctx, primitive.M{"_id": hexedId})
+	_, err = m.db.DeleteOne(ctx, primitive.M{"_id": hexedID})
 	return err
 }
 
@@ -114,7 +114,7 @@ func (m *MentorMongo) ListOfMentors(ctx context.Context, page uint, params memen
 	if params.Search == "" {
 		cur, err = m.db.Find(ctx, baseRequest, opts)
 		if err != nil {
-			if err == mongo.ErrNoDocuments {
+			if errors.Is(err, mongo.ErrNoDocuments) {
 				return mementor_back.ListOfMentorsResponse{Mentors: []mementor_back.Mentor{}}, nil
 			}
 			return mementor_back.ListOfMentorsResponse{Mentors: []mementor_back.Mentor{}}, err
@@ -126,7 +126,7 @@ func (m *MentorMongo) ListOfMentors(ctx context.Context, page uint, params memen
 	} else {
 		cur, err = m.db.Find(ctx, requestWithSearch, opts)
 		if err != nil {
-			if err == mongo.ErrNoDocuments {
+			if errors.Is(err, mongo.ErrNoDocuments) {
 				return mementor_back.ListOfMentorsResponse{Mentors: []mementor_back.Mentor{}}, nil
 			}
 			return mementor_back.ListOfMentorsResponse{Mentors: []mementor_back.Mentor{}}, err

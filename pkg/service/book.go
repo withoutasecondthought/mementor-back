@@ -2,7 +2,6 @@ package service
 
 import (
 	"context"
-	"errors"
 	"fmt"
 	"github.com/spf13/viper"
 	mementor_back "mementor-back"
@@ -28,7 +27,7 @@ func sendBookEmail(booking mementor_back.Booking) error {
 	to := viper.GetString("gmail.to")
 
 	sub := fmt.Sprintf("Subject: New Booking Request from %s\r\n\r\n", booking.CustomerName)
-	msg := fmt.Sprintf("Name: %s\n\n Telegram: %s\n\n MentorId: %s \n\n MentorLink: https://ilyaprojects.com/test-drive/mementor/mentor/%s\n\n TarriffIndex: %d", booking.CustomerName, booking.CustomerTelegram, booking.MentorId, booking.MentorId, booking.TariffIndex)
+	msg := fmt.Sprintf("Name: %s\n\n Telegram: %s\n\n MentorId: %s \n\n MentorLink: https://ilyaprojects.com/test-drive/mementor/mentor/%s\n\n TarriffIndex: %d", booking.CustomerName, booking.CustomerTelegram, booking.MentorID, booking.MentorID, booking.TariffIndex)
 
 	auth := smtp.PlainAuth("", from, pass, "smtp.gmail.com")
 
@@ -36,7 +35,7 @@ func sendBookEmail(booking mementor_back.Booking) error {
 		from, []string{to}, []byte(sub+msg))
 
 	if err != nil {
-		return errors.New(fmt.Sprintf("smtp error: %s", err))
+		return fmt.Errorf("smtp error: %w", err)
 	}
 	return nil
 }

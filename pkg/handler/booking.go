@@ -1,7 +1,6 @@
 package handler
 
 import (
-	"context"
 	"github.com/go-playground/validator/v10"
 	"github.com/labstack/echo/v4"
 	"github.com/sirupsen/logrus"
@@ -38,9 +37,8 @@ func (h *Handler) newBooking(c echo.Context) error {
 		}
 		return err
 	}
-	ctx := context.Background()
 
-	err = h.Services.Book.NewBooking(ctx, booking)
+	err = h.Services.Book.NewBooking(c.Request().Context(), booking)
 	if err != nil {
 		sentError := c.JSON(http.StatusInternalServerError, mementor_back.Message{Message: err.Error()})
 		if sentError != nil {

@@ -375,7 +375,7 @@ paths:
           schema:
             $ref: '#/definitions/GetMentorResponse'
         "404":
-          description: error occured
+          description: error occurred
           schema:
             $ref: '#/definitions/BasicResponse'
       summary: Show a mentor

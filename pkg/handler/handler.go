@@ -12,7 +12,10 @@ import (
 
 type Handler struct {
 	Services *service.Service
-	UserId   primitive.ObjectID
+	UserID   primitive.ObjectID
+}
+
+type customSerialize struct {
 }
 
 func NewHandler(service *service.Service) *Handler {
@@ -24,6 +27,8 @@ func NewHandler(service *service.Service) *Handler {
 func (h *Handler) InitRoutes() *echo.Echo {
 	e := echo.New()
 	log := logrus.New()
+
+	e.JSONSerializer = customSerialize{}
 
 	e.Use(middleware.Recover())
 	e.Use(middleware.CORS())
@@ -61,8 +66,6 @@ func (h *Handler) InitRoutes() *echo.Echo {
 			authmentor.PUT("", h.putMentor)
 			authmentor.DELETE("", h.deleteMentor)
 		}
-
 	}
-
 	return e
 }

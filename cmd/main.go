@@ -27,10 +27,9 @@ import (
 // @host     api.ilyaprojects.com
 // @BasePath /mementor
 
-//@securityDefinitions.apikey ApiKeyAUth
-//@in header
-//@name Authorization
-
+// @securityDefinitions.apikey ApiKeyAUth
+// @in header
+// @name Authorization
 func main() {
 	err := config.InitConfig()
 	if err != nil {

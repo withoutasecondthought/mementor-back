@@ -13,7 +13,7 @@ type ImageMongo struct {
 }
 
 func (i *ImageMongo) NewImage(ctx context.Context, image mementor_back.PostImage) error {
-	_, err := i.db.UpdateByID(ctx, image.Id, bson.M{"$set": bson.M{"image": image.Image}})
+	_, err := i.db.UpdateByID(ctx, image.ID, bson.M{"$set": bson.M{"image": image.Image}})
 	return err
 }
 

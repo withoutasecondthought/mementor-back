@@ -14,8 +14,9 @@ type AuthMongo struct {
 	db *mongo.Collection
 }
 
-type getId struct {
-	Id *primitive.ObjectID `json:"_id,omitempty" bson:"_id,omitempty"`
+type GetAuthData struct {
+	ID       *primitive.ObjectID `json:"_id,omitempty" bson:"_id,omitempty"`
+	Password string              `json:"password" bson:"password"`
 }
 
 func (a *AuthMongo) CreateUser(ctx context.Context, user mementor_back.Auth) (string, error) {
@@ -34,18 +35,18 @@ func (a *AuthMongo) CreateUser(ctx context.Context, user mementor_back.Auth) (st
 	return res.InsertedID.(primitive.ObjectID).Hex(), nil
 }
 
-func (a *AuthMongo) GetUser(ctx context.Context, user mementor_back.Auth) (string, error) {
-	var response getId
-	err := a.db.FindOne(ctx, bson.M{"email": user.Email, "password": user.Password}).Decode(&response)
+func (a *AuthMongo) GetUser(ctx context.Context, user mementor_back.Auth) (GetAuthData, error) {
+	var response GetAuthData
+	err := a.db.FindOne(ctx, bson.M{"email": user.Email}).Decode(&response)
 	if err != nil {
-		return "", err
+		return GetAuthData{}, err
 	}
 
-	if response.Id == nil {
-		return "", errors.New("no such user")
+	if response.ID == nil {
+		return GetAuthData{}, errors.New("no such user")
 	}
 
-	return response.Id.Hex(), nil
+	return response, nil
 }
 
 func NewAuthMongo(db *mongo.Database) *AuthMongo {

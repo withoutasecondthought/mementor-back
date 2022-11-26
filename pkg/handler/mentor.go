@@ -1,7 +1,6 @@
 package handler
 
 import (
-	"context"
 	"fmt"
 	"github.com/go-playground/validator/v10"
 	"github.com/labstack/echo/v4"
@@ -17,13 +16,12 @@ import (
 // @Produce     json
 // @Param       id  path     string true "Account ID"
 // @Success     200 {object} mementor_back.MentorFullInfo
-// @Failure     404 {object} mementor_back.Message "error occured"
+// @Failure     404 {object} mementor_back.Message "error occurred"
 // @Router      /mentor/{id} [get]
 func (h *Handler) getMentor(c echo.Context) error {
 	id := c.Param("id")
 
-	ctx := context.Background()
-	mentor, err := h.Services.GetMentor(ctx, id)
+	mentor, err := h.Services.GetMentor(c.Request().Context(), id)
 	if err != nil {
 		sentError := c.JSON(http.StatusNotFound, mementor_back.Message{
 			Message: fmt.Sprintf("Mentor not found: %s", err),
@@ -70,11 +68,9 @@ func (h *Handler) putMentor(c echo.Context) error {
 		return err
 	}
 
-	ctx := context.Background()
+	mentor.ID = &h.UserID
 
-	mentor.Id = &h.UserId
-
-	err = h.Services.PutMentor(ctx, mentor)
+	err = h.Services.PutMentor(c.Request().Context(), mentor)
 	if err != nil {
 		sentError := c.JSON(http.StatusInternalServerError, mementor_back.Message{Message: err.Error()})
 		if sentError != nil {
@@ -94,9 +90,7 @@ func (h *Handler) putMentor(c echo.Context) error {
 // @Failure     500 {object} mementor_back.Message "error occurred"
 // @Router      /mentor [delete]
 func (h *Handler) deleteMentor(c echo.Context) error {
-	ctx := context.Background()
-
-	err := h.Services.DeleteMentor(ctx, h.UserId.Hex())
+	err := h.Services.DeleteMentor(c.Request().Context(), h.UserID.Hex())
 	if err != nil {
 		if err != nil {
 			sentError := c.JSON(http.StatusInternalServerError, mementor_back.Message{Message: err.Error()})
@@ -122,7 +116,6 @@ func (h *Handler) deleteMentor(c echo.Context) error {
 // @Router /mentor/{page} [post]
 func (h *Handler) listOfMentors(c echo.Context) error {
 	var params mementor_back.SearchParameters
-	ctx := context.Background()
 	p := c.Param("page")
 	if p == "" {
 		p = "0"
@@ -145,7 +138,7 @@ func (h *Handler) listOfMentors(c echo.Context) error {
 		return err
 	}
 
-	mentors, err := h.Services.ListOfMentors(ctx, uint(page), params)
+	mentors, err := h.Services.ListOfMentors(c.Request().Context(), uint(page), params)
 	if err != nil {
 		sentError := c.JSON(http.StatusInternalServerError, mementor_back.Message{Message: err.Error()})
 		if sentError != nil {
@@ -153,9 +146,7 @@ func (h *Handler) listOfMentors(c echo.Context) error {
 		}
 		return err
 	}
-
 	return c.JSON(http.StatusOK, mentors)
-
 }
 
 // @Summary     Show your Page
@@ -167,8 +158,7 @@ func (h *Handler) listOfMentors(c echo.Context) error {
 // @Failure     500 {object} mementor_back.Message "error occurred"
 // @Router      /mentor [get]
 func (h *Handler) getYourPage(c echo.Context) error {
-	ctx := context.Background()
-	mentor, err := h.Services.GetMyMentor(ctx, h.UserId.Hex())
+	mentor, err := h.Services.GetMyMentor(c.Request().Context(), h.UserID.Hex())
 	if err != nil {
 		sentError := c.JSON(http.StatusInternalServerError, mementor_back.Message{Message: err.Error()})
 		if sentError != nil {

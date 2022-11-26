@@ -16,7 +16,7 @@ type Mentor interface {
 
 type Authorization interface {
 	CreateUser(ctx context.Context, user mementor_back.Auth) (string, error)
-	GetUser(ctx context.Context, user mementor_back.Auth) (string, error)
+	GetUser(ctx context.Context, user mementor_back.Auth) (GetAuthData, error)
 }
 
 type Book interface {
@@ -41,5 +41,4 @@ func NewRepository(db *mongo.Database) *Repository {
 		Book:          NewBookMongo(db),
 		Image:         NewImageMongo(db),
 	}
-
 }

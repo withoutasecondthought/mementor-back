@@ -1,7 +1,6 @@
 package handler
 
 import (
-	"context"
 	"github.com/go-playground/validator/v10"
 	"github.com/labstack/echo/v4"
 	"github.com/sirupsen/logrus"
@@ -40,9 +39,7 @@ func (h *Handler) signUp(c echo.Context) error {
 		return err
 	}
 
-	ctx := context.Background()
-
-	token, err := h.Services.SignUp(ctx, user)
+	token, err := h.Services.SignUp(c.Request().Context(), user)
 	if err != nil {
 		sendError := c.JSON(http.StatusInternalServerError, mementor_back.Message{Message: err.Error()})
 		if sendError != nil {
@@ -84,9 +81,7 @@ func (h *Handler) signIn(c echo.Context) error {
 		return err
 	}
 
-	ctx := context.Background()
-
-	token, err := h.Services.SignIn(ctx, user)
+	token, err := h.Services.SignIn(c.Request().Context(), user)
 	if err != nil {
 		sendError := c.JSON(http.StatusInternalServerError, mementor_back.Message{Message: err.Error()})
 		if sendError != nil {
@@ -103,4 +98,4 @@ func (h *Handler) signIn(c echo.Context) error {
 
 type loginResponse struct {
 	Token string `json:"token" example:"Bearer token"`
-} //@name PostAuthResponse
+} // @name PostAuthResponse

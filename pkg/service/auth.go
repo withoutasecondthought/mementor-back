@@ -2,12 +2,9 @@ package service
 
 import (
 	"context"
-	"crypto/sha1"
-	"errors"
-	"fmt"
 	"github.com/golang-jwt/jwt"
 	"github.com/spf13/viper"
-	"go.mongodb.org/mongo-driver/mongo"
+	"golang.org/x/crypto/bcrypt"
 	mementor_back "mementor-back"
 	"mementor-back/pkg/repository"
 	"time"
@@ -19,26 +16,38 @@ type AuthService struct {
 
 type Claims struct {
 	jwt.StandardClaims
-	UserId string `json:"userId" bson:"userId"`
+	UserID string `json:"userId" bson:"userId"`
 }
 
 func (a *AuthService) SignIn(ctx context.Context, user mementor_back.Auth) (string, error) {
-	user.Password = hashPassword(user.Password)
-
-	id, err := a.repos.GetUser(ctx, user)
+	pass := user.Password + viper.GetString("password_salt")
+	hash, err := hashPassword(user.Password)
 	if err != nil {
-		if err == mongo.ErrNoDocuments {
-			return "", errors.New("invalid login or password")
-		}
+		return "", err
+	}
+	user.Password = hash
+
+	resp, err := a.repos.GetUser(ctx, user)
+	if err != nil {
 		return "", err
 	}
 
-	return generateToken(id)
+	err = bcrypt.CompareHashAndPassword([]byte(resp.Password), []byte(pass))
+	if err != nil {
+		return "", err
+	}
+
+	return generateToken(resp.ID.Hex())
 }
 
 func (a *AuthService) SignUp(ctx context.Context, user mementor_back.Auth) (string, error) {
 	user.ValidProfile = false
-	user.Password = hashPassword(user.Password)
+	hash, err := hashPassword(user.Password)
+	if err != nil {
+		return "", err
+	}
+
+	user.Password = hash
 	id, err := a.repos.CreateUser(ctx, user)
 	if err != nil {
 		return "", err
@@ -46,11 +55,12 @@ func (a *AuthService) SignUp(ctx context.Context, user mementor_back.Auth) (stri
 	return generateToken(id)
 }
 
-func hashPassword(password string) string {
-	hash := sha1.New()
-	hash.Write([]byte(password))
-
-	return fmt.Sprintf("%x", hash.Sum([]byte(viper.GetString("password_salt"))))
+func hashPassword(password string) (string, error) {
+	fromPassword, err := bcrypt.GenerateFromPassword([]byte(password+viper.GetString("password_salt")), bcrypt.DefaultCost)
+	if err != nil {
+		return "", err
+	}
+	return string(fromPassword), nil
 }
 
 func generateToken(id string) (string, error) {

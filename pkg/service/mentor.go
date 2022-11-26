@@ -52,7 +52,7 @@ func (m *MentorService) ListOfMentors(ctx context.Context, page uint, params mem
 	resp, err := m.repos.ListOfMentors(ctx, page, params)
 
 	if err == nil && resp.Mentors != nil {
-		resp.Pages += 1
+		resp.Pages++
 	}
 
 	if resp.Mentors == nil {
@@ -60,7 +60,6 @@ func (m *MentorService) ListOfMentors(ctx context.Context, page uint, params mem
 	}
 
 	return resp, err
-
 }
 
 func NewMentorService(repo repository.Mentor) *MentorService {

@@ -20,7 +20,7 @@ func ParseToken(accessToken string, signingKey []byte) (string, error) {
 	}
 
 	if claims, ok := token.Claims.(*service.Claims); ok && token.Valid {
-		return claims.UserId, nil
+		return claims.UserID, nil
 	}
 
 	return "", errors.New("invalid Token Access")
