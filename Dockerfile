@@ -1,17 +1,14 @@
-FROM golang:bullseye
+FROM golang:bullseye as builder
 
-RUN mkdir "/app"
+WORKDIR /mementor
+COPY . .
 
-ADD . /app/
+RUN CGO_ENABLED=0  GOOS=linux  GOARCH=amd64 go build -v -o ./application ./cmd/*.go
 
-WORKDIR /app
+FROM alpine:3.15.4
+WORKDIR /mementor
 
-RUN make build
-
-CMD ["./main"]
-
-
-
-
-
+COPY --from=builder /mementor/application /mementor/application
+COPY ./config/config.yml ./config/config.yml
+CMD ["/mementor/application"]
 
