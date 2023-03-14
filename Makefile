@@ -10,4 +10,7 @@ swagger:
 	swag init -g cmd/main.go
 
 docker:
-#    docker build -t mementor .
+		docker build -t mementor .
+
+test:
+	go test ./...
