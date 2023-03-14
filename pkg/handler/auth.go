@@ -24,7 +24,7 @@ func (h *Handler) signUp(c echo.Context) error {
 
 	err := c.Bind(&user)
 	if err != nil {
-		sendError := c.JSON(http.StatusBadRequest, mementor_back.Message{Message: err.Error()})
+		sendError := c.JSON(http.StatusBadRequest, mementor_back.Message{Message: "binding error"})
 		if sendError != nil {
 			logrus.Error(sendError)
 		}
@@ -32,7 +32,7 @@ func (h *Handler) signUp(c echo.Context) error {
 	}
 	err = validate.Struct(user)
 	if err != nil {
-		sendError := c.JSON(http.StatusBadRequest, mementor_back.Message{Message: err.Error()})
+		sendError := c.JSON(http.StatusBadRequest, mementor_back.Message{Message: "validation error"})
 		if sendError != nil {
 			logrus.Error(sendError)
 		}
@@ -66,7 +66,7 @@ func (h *Handler) signIn(c echo.Context) error {
 
 	err := c.Bind(&user)
 	if err != nil {
-		sendError := c.JSON(http.StatusBadRequest, mementor_back.Message{Message: err.Error()})
+		sendError := c.JSON(http.StatusBadRequest, mementor_back.Message{Message: "binding error"})
 		if sendError != nil {
 			logrus.Error(sendError)
 		}
@@ -74,7 +74,7 @@ func (h *Handler) signIn(c echo.Context) error {
 	}
 	err = validate.Struct(user)
 	if err != nil {
-		sendError := c.JSON(http.StatusBadRequest, mementor_back.Message{Message: err.Error()})
+		sendError := c.JSON(http.StatusBadRequest, mementor_back.Message{Message: "validation error"})
 		if sendError != nil {
 			logrus.Error(sendError)
 		}

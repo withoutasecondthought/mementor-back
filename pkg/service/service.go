@@ -6,6 +6,8 @@ import (
 	"mementor-back/pkg/repository"
 )
 
+//go:generate mockgen -source=service.go -destination=mocks/mock.go
+
 type Mentor interface {
 	GetMentor(ctx context.Context, id string) (mementor_back.MentorFullInfo, error)
 	GetMyMentor(ctx context.Context, id string) (mementor_back.MentorFullInfo, error)

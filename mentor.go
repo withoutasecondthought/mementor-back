@@ -1,6 +1,9 @@
 package mementor_back
 
-import "go.mongodb.org/mongo-driver/bson/primitive"
+import (
+	"github.com/golang-jwt/jwt"
+	"go.mongodb.org/mongo-driver/bson/primitive"
+)
 
 type Message struct {
 	Message string `json:"message"`
@@ -88,3 +91,8 @@ type Image struct {
 	BigImage   string `json:"512x512"`
 	SmallImage string `json:"144x144"`
 } // @name Image
+
+type Claims struct {
+	jwt.StandardClaims
+	UserID string `json:"userId" bson:"userId"`
+}
