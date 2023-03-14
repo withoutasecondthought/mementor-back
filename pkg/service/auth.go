@@ -14,11 +14,6 @@ type AuthService struct {
 	repos repository.Authorization
 }
 
-type Claims struct {
-	jwt.StandardClaims
-	UserID string `json:"userId" bson:"userId"`
-}
-
 func (a *AuthService) SignIn(ctx context.Context, user mementor_back.Auth) (string, error) {
 	pass := user.Password + viper.GetString("password_salt")
 	hash, err := hashPassword(user.Password)
@@ -64,11 +59,11 @@ func hashPassword(password string) (string, error) {
 }
 
 func generateToken(id string) (string, error) {
-	token := jwt.NewWithClaims(jwt.SigningMethodHS256, &Claims{
-		jwt.StandardClaims{
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, &mementor_back.Claims{
+		StandardClaims: jwt.StandardClaims{
 			IssuedAt: time.Now().Unix(),
 		},
-		id,
+		UserID: id,
 	})
 
 	return token.SignedString([]byte(viper.GetString("signing_key")))
